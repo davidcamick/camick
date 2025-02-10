@@ -1,7 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
   background-color: black;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Custom Animation Utilities */
+@layer utilities {
+  .animate-fadeIn {
+    animation: fadeIn 1s ease-in-out forwards;
+  }
+  .animate-slideDown {
+    animation: slideDown 1s ease-in-out forwards;
+  }
+  .animate-fadeSlideDown {
+    animation: fadeSlideDown 1s ease forwards;
+  }
+  .animate-fadeUp {
+    animation: fadeUp 1s ease forwards;
+  }
+  .animate-floating {
+    animation: floating 3s ease-in-out infinite;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeSlideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes floating {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
 }
