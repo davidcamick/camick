@@ -7,8 +7,10 @@ import { TextGenerateEffect } from '../components/text-generate-effect';
 import { PortfolioCard } from '../components/portfolio-card';
 import FeaturesGrid from '../components/features-grid';  // Changed from named import
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { Reviews } from '../components/reviews';
+import DarkStats from "../components/dark-stats";
 
-function Landing() {
+export default function Landing() {
   const textContentRef = useRef(null);
   const descriptionRef = useRef(null);
 
@@ -56,9 +58,9 @@ function Landing() {
   );
 
   return (
-    <span className="bg-black w-full min-h-screen block relative"> {/* Added relative */}
+    <main className="bg-black w-full min-h-screen relative">
       <ScrollProgress />
-      <div className={'w-full h-[4000px] relative bg-grid-white/[0.03] px-4'}>
+      <div className="w-full h-[4000px] relative bg-grid-white px-4"> {/* Fixed background class */}
         <div className="relative z-[1] mt-[30vh] flex flex-col items-center">
           <motion.h1 
             style={{ 
@@ -125,21 +127,35 @@ function Landing() {
           </motion.div>
         </div>
 
+        <DarkStats />
+
         {/* Updated Features Grid section */}
         <motion.div 
           style={{ translateY: contentY }}
           className="w-full mt-32 px-8 max-w-7xl mx-auto relative z-10" // Added z-index
         >
-          <motion.h2 
-            className="text-4xl font-display font-bold text-[#EFF9F0] text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            Here's Some of my Videography Work
-          </motion.h2>
+          <div className="space-y-4 text-center mb-24">
+            <motion.h2 
+              className="text-4xl font-display font-bold text-[#EFF9F0] flex items-center justify-center gap-3"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              See my <AuroraText>Impact</AuroraText> for yourself
+            </motion.h2>
+            <motion.p
+              className="text-[#EFF9F0]/60 text-lg"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              Check out some of my favorite videos, along with my cover video for 2025
+            </motion.p>
+          </div>
           <FeaturesGrid />
         </motion.div>
+
+        <Reviews />
 
         {/* Keep existing footer elements */}
         <div className="fixed bottom-0 left-1/2 -translate-x-1/2 pb-8 z-40"> {/* Changed from z-50 */}
@@ -149,8 +165,6 @@ function Landing() {
           <Lights />
         </div>
       </div>
-    </span>
+    </main>
   );
 }
-
-export default Landing;
