@@ -7,10 +7,11 @@ import { TextGenerateEffect } from '../components/text-generate-effect';
 import { PortfolioCard } from '../components/portfolio-card';
 import FeaturesGrid from '../components/features-grid';  // Changed from named import
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Reviews } from '../components/reviews';
 import DarkStats from "../components/dark-stats";
+import { useNavigate } from 'react-router-dom';  // Replace next/router import
 
 export default function Landing() {
+  const navigate = useNavigate();  // Replace useRouter
   const textContentRef = useRef(null);
   const descriptionRef = useRef(null);
 
@@ -84,13 +85,28 @@ export default function Landing() {
               translateY: welcomeY,
               translateX: '6.47px' // Lock X transform
             }}
-            className="text-left mb-72"
+            className="text-left mb-64 relative" // added relative positioning
           >
-            <TextGenerateEffect 
-              words="Welcome to My Portfolio! You can scroll down to learn more about me and see my work!"
-              className="text-xl leading-relaxed"
-              delay={1.4}
-            />
+            <div className="pr-[calc(190px+3rem)]"> {/* Increased padding from 1.5rem to 3rem */}
+              <TextGenerateEffect 
+                words="Welcome to My Portfolio! You can scroll down to learn more about me and see my work!"
+                className="text-xl leading-relaxed"
+                delay={1.4}
+              />
+            </div>
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 3.5 }} // increased delay to wait for text animation
+              onClick={() => navigate('/hireme')}  // Replace router.push
+              className="absolute right-0 top-0 px-6 py-3 
+                bg-gradient-to-r from-purple-600/20 via-blue-600/20 to-purple-600/20 
+                border border-white/20 rounded-lg text-[#EFF9F0] hover:bg-white/10 
+                transition-all duration-300 backdrop-blur-sm shadow-[0_0_15px_rgba(255,255,255,0.1)]
+                animate-gradient-x bg-[length:200%_100%]"
+            >
+              Cover Video + Resume 2025
+            </motion.button>
           </motion.div>
           <motion.div 
             style={{ translateY: portfolioY }}
@@ -154,8 +170,6 @@ export default function Landing() {
           </div>
           <FeaturesGrid />
         </motion.div>
-
-        <Reviews />
 
         {/* Keep existing footer elements */}
         <div className="fixed bottom-0 left-1/2 -translate-x-1/2 pb-8 z-40"> {/* Changed from z-50 */}

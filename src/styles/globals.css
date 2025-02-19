@@ -1,0 +1,13 @@
+
+
+
+
+
+
+
+
+
+
+
+
+// ...existing code...}  animation: gradient-x 15s linear infinite;.animate-gradient-x {}  100% { background-position: -200% 0; }  0% { background-position: 0% 0; }@keyframes gradient-x {// ...existing code...
