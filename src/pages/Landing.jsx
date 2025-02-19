@@ -5,6 +5,7 @@ import { ScrollProgress } from '../components/scroll-progress';
 import { AuroraText } from '../components/aurora-text';
 import { TextGenerateEffect } from '../components/text-generate-effect';
 import { PortfolioCard } from '../components/portfolio-card';
+import FeaturesGrid from '../components/features-grid';  // Changed from named import
 import { motion, useScroll, useTransform } from 'framer-motion';
 
 function Landing() {
@@ -55,7 +56,7 @@ function Landing() {
   );
 
   return (
-    <span className="bg-black w-full min-h-screen block">
+    <span className="bg-black w-full min-h-screen block relative"> {/* Added relative */}
       <ScrollProgress />
       <div className={'w-full h-[4000px] relative bg-grid-white/[0.03] px-4'}>
         <div className="relative z-[1] mt-[30vh] flex flex-col items-center">
@@ -123,7 +124,25 @@ function Landing() {
             </motion.div>
           </motion.div>
         </div>
-        <div className="fixed bottom-0 left-1/2 -translate-x-1/2 pb-8 z-50">
+
+        {/* Updated Features Grid section */}
+        <motion.div 
+          style={{ translateY: contentY }}
+          className="w-full mt-32 px-8 max-w-7xl mx-auto relative z-10" // Added z-index
+        >
+          <motion.h2 
+            className="text-4xl font-display font-bold text-[#EFF9F0] text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            Here's Some of my Videography Work
+          </motion.h2>
+          <FeaturesGrid />
+        </motion.div>
+
+        {/* Keep existing footer elements */}
+        <div className="fixed bottom-0 left-1/2 -translate-x-1/2 pb-8 z-40"> {/* Changed from z-50 */}
           <NavBar tabs={['About Me', 'My Achievements', 'My Work', 'Contact']} />
         </div>
         <div className={'absolute bottom-0 left-0 w-full h-full z-0 animate-appear opacity-0'}>
