@@ -81,21 +81,40 @@ export default function HireMe() {
           ))}
         </div>
 
-        {/* Animated Video Section */}
-        <div className="max-w-[70%] mx-auto">
+        {/* Animated Video Section with Description */}
+        <div className="max-w-[90%] mx-auto flex items-start gap-12">
           <motion.div 
             variants={videoVariants}
             initial="hidden"
             animate="visible"
-            className="aspect-video bg-gray-900/50 rounded-lg mb-16 overflow-hidden"
+            className="flex-1 aspect-video bg-gray-900/50 rounded-lg mb-16 overflow-hidden"
           >
             <div className="w-full h-full flex items-center justify-center border border-white/10">
               <span className="text-white/50 font-display text-xl">Cover Video Coming Soon</span>
             </div>
           </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 1 }}
+            className="w-1/3 pt-4"
+          >
+            <h3 className="text-3xl font-display font-bold mb-4 [text-shadow:_0_0_30px_rgb(255_255_255_/_20%)]">
+              Cover Video - 2025
+            </h3>
+            <div className="space-y-4 text-[#EFF9F0]/80 text-lg leading-relaxed">
+              <p className="font-medium">
+                Filmed and Produced by David Camick
+              </p>
+              <p className="italic">
+                Featuring: SPX Athletics, Overtime Elite, NCAA Athletes and more.
+              </p>
+            </div>
+          </motion.div>
         </div>
 
-        {/* Simplified Resume Section */}
+        {/* Resume Section - Updated with Google Doc */}
         <motion.div
           className="max-w-4xl mx-auto"
           initial={{ opacity: 0, y: 20 }}
@@ -108,24 +127,26 @@ export default function HireMe() {
                 Resume 2025
               </h2>
               <a 
-                href="/assets/David Camick - Resume 2025.pdf" 
+                href="https://docs.google.com/document/d/e/2PACX-1vSAqS8y0QLL9VkIecYTDfw944WoXJRxc9p4vkqdShY5XhDKt578pBfwQ7fYPpmGm1GZ4HS5RVUxzRYS/pub" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="px-4 py-2 bg-white/5 rounded hover:bg-white/10 
                   transition-all duration-200 backdrop-blur-sm border border-white/10"
               >
-                Download
+                Open in New Tab
               </a>
             </div>
             <div className="relative w-full aspect-[8.5/11] bg-black/20 rounded-lg overflow-hidden">
               <iframe
-                src={`/assets/David Camick - Resume 2025.pdf#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
-                className="w-full h-full absolute inset-0 border-none"
+                src="https://docs.google.com/document/d/e/2PACX-1vSAqS8y0QLL9VkIecYTDfw944WoXJRxc9p4vkqdShY5XhDKt578pBfwQ7fYPpmGm1GZ4HS5RVUxzRYS/pub?embedded=true"
+                className="w-full h-full absolute inset-0 border-none bg-white"
                 title="Resume 2025"
+                loading="lazy"
               />
             </div>
           </div>
         </motion.div>
+
       </div>
 
       {/* Add NavBar */}
