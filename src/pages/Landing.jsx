@@ -6,7 +6,7 @@ import { AuroraText } from '../components/aurora-text';
 import { TextGenerateEffect } from '../components/text-generate-effect';
 import { PortfolioCard } from '../components/portfolio-card';
 import FeaturesGrid from '../components/features-grid';  // Changed from named import
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import DarkStats from "../components/dark-stats";
 import { useNavigate } from 'react-router-dom';  // Replace next/router import
 
@@ -50,6 +50,7 @@ export default function Landing() {
   const portfolioY = useTransform(scrollY, [0, 1000], [0, -50]);
   const contentY = useTransform(scrollY, [0, 1000], [0, -70]); // Added for content sections
   const impactY = useTransform(scrollY, [0, 1000], [0, -110]); // Reduced from -150
+  const statsY = useTransform(scrollY, [0, 1000], [0, -150]); // Increased from -40 to -150
   
   // Opacity animation adjusted to align with scroll position
   const impactOpacity = useTransform(
@@ -57,6 +58,10 @@ export default function Landing() {
     [300, 400], // Tighter range for fade in
     [0, 1]
   );
+
+  // Add this ref and hook near your other refs
+  const statsRef = useRef(null);
+  const statsInView = useInView(statsRef, { once: true, margin: "-100px" });
 
   return (
     <main className="bg-black w-full min-h-screen relative">
@@ -143,7 +148,10 @@ export default function Landing() {
           </motion.div>
         </div>
 
-        <DarkStats />
+        {/* Added extra margin-top here */}
+        <div ref={statsRef} className="mt-[30vh]">
+          <DarkStats titleInView={statsInView} transformY={statsY} />
+        </div>
 
         {/* Updated Features Grid section */}
         <motion.div 

@@ -1,25 +1,45 @@
 'use client'
 
 import { useEffect, useState, useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion, useInView, useTransform } from 'framer-motion'
 import { AuroraText } from '../components/aurora-text'
 
-function DarkStats() {
+function DarkStats({ titleInView, transformY }) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
+  const words = ['And', 'my', 'Impact', 'can', 'be', 'seen', 'in', 'numbers', 'too.'];
+
   return (
-    <section ref={ref} className="relative w-full min-w-7xl overflow-hidden px-4 py-24 sm:py-32 flex items-center justify-center"> {/* Increased padding-y */}
+    <motion.section 
+      ref={ref} 
+      style={{ 
+        y: transformY,
+        scale: useTransform(transformY, [-150, 0], [0.95, 1]) // Add subtle scale effect
+      }}
+      className="relative w-full min-w-7xl overflow-hidden px-4 py-24 sm:py-32 flex items-center justify-center"
+    >
       <div className="max-w-6xl mx-auto w-full">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 2, delay: 0.5 }} // Increased duration
-          className="text-center mb-10 sm:mb-12 space-y-3 sm:space-y-4"
-        >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white flex items-center justify-center gap-3">
-            And my <AuroraText>Impact</AuroraText> can be seen in numbers, too.
-          </h2>
+        <motion.div className="text-center mb-10 sm:mb-12 space-y-3 sm:space-y-4">
+          <div className="text-6xl font-display font-bold text-center mb-12 flex flex-wrap justify-center gap-x-4">
+            {words.map((word, i) => (
+              <motion.span
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{
+                  duration: 0.5,
+                  delay: i * 0.1,
+                }}
+              >
+                {word === 'Impact' ? (
+                  <AuroraText>{word}</AuroraText>
+                ) : (
+                  <span className="text-[#EFF9F0]">{word}</span>
+                )}
+              </motion.span>
+            ))}
+          </div>
           <p className="text-gray-400 max-w-2xl mx-auto text-sm sm:text-base lg:text-lg">
             My impact goes past the flashy effects and mind-bending animations, It can be seen in the raw stats that my work has produced
           </p>
@@ -49,7 +69,7 @@ function DarkStats() {
           </motion.div>
         </div>
       </div>
-    </section>
+    </motion.section>
   )
 }
 
