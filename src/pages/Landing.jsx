@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, lazy, Suspense } from 'react';
 import { NavBar } from '../components/nav';
 import { Lights } from '../components/lights';
 import { ScrollProgress } from '../components/scroll-progress';
@@ -9,6 +9,50 @@ import FeaturesGrid from '../components/features-grid';  // Changed from named i
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import DarkStats from "../components/dark-stats";
 import { useNavigate } from 'react-router-dom';  // Replace next/router import
+// Remove the direct import of AnimatedTestimonials
+const AnimatedTestimonials = lazy(() => import('../components/animated-testimonials'));
+
+const WordAnimation = ({ words, className = "" }) => {
+  const wordsArray = typeof words === 'string' ? words.split(" ") : words;
+  
+  return (
+    <div className="flex flex-wrap items-center justify-center gap-1.5">
+      {wordsArray.map((word, i) => {
+        if (React.isValidElement(word)) {
+          return React.cloneElement(word, {
+            key: i,
+            style: {
+              opacity: 0,
+              y: 20,
+              ...word.props.style
+            },
+            animate: {
+              opacity: 1,
+              y: 0
+            },
+            transition: {
+              duration: 0.5,
+              delay: i * 0.1
+            }
+          });
+        }
+        
+        return (
+          <motion.span
+            key={i}
+            className={`${className} inline-block`}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: i * 0.1 }}
+          >
+            {word}
+          </motion.span>
+        );
+      })}
+    </div>
+  );
+};
 
 export default function Landing() {
   const navigate = useNavigate();  // Replace useRouter
@@ -62,6 +106,9 @@ export default function Landing() {
   // Add this ref and hook near your other refs
   const statsRef = useRef(null);
   const statsInView = useInView(statsRef, { once: true, margin: "-100px" });
+
+  const testimonialsRef = useRef(null);
+  const testimonialsInView = useInView(testimonialsRef, { once: true, margin: "-100px" });
 
   return (
     <main className="bg-black w-full min-h-screen relative">
@@ -121,7 +168,9 @@ export default function Landing() {
               style={{ translateY: contentY }} 
               className="w-1/2 flex justify-end opacity-0 animate-fade-in-more-delayed pr-20"
             >
-              <PortfolioCard />
+              <div className="transition-transform duration-300 hover:scale-105">
+                <PortfolioCard />
+              </div>
             </motion.div>
             <motion.div 
               style={{ translateY: contentY }}
@@ -161,22 +210,50 @@ export default function Landing() {
           <div className="space-y-4 text-center mb-24">
             <motion.h2 
               className="text-4xl font-display font-bold text-[#EFF9F0] flex items-center justify-center gap-3"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
             >
-              See my <AuroraText>Impact</AuroraText> for yourself
+              <WordAnimation words={["See", "my", <AuroraText>Impact</AuroraText>, "for", "yourself"]} />
             </motion.h2>
-            <motion.p
-              className="text-[#EFF9F0]/60 text-lg"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              Check out some of my favorite videos, along with my cover video for 2025
-            </motion.p>
+            <div className="text-[#EFF9F0]/60 text-lg">
+              <WordAnimation 
+                words="Check out some of my favorite videos, along with my cover video for 2025" 
+              />
+            </div>
           </div>
-          <FeaturesGrid />
+          <div className="transition-transform duration-300 hover:scale-[1.02]">
+            <FeaturesGrid />
+          </div>
+        </motion.div>
+
+        {/* After FeaturesGrid */}
+        <motion.div 
+          ref={testimonialsRef}
+          style={{ translateY: contentY }}
+          className="w-full mt-32 relative z-10"
+        >
+          <div className="space-y-4 text-center mb-12">
+            <motion.h2 
+              className="text-4xl font-display font-bold text-[#EFF9F0] flex items-center justify-center"
+            >
+              <WordAnimation 
+                words={["My", "Clients", "Feel", "The", <AuroraText>Impact</AuroraText>, "Too"]} 
+                className="mx-0.5"
+              />
+            </motion.h2>
+          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={testimonialsInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="transition-transform duration-300 hover:scale-[1.02]"
+          >
+            <Suspense fallback={
+              <div className="h-[600px] w-full flex items-center justify-center">
+                <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+              </div>
+            }>
+              <AnimatedTestimonials />
+            </Suspense>
+          </motion.div>
         </motion.div>
 
         {/* Keep existing footer elements */}
