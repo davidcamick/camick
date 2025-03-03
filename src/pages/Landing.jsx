@@ -1,16 +1,15 @@
-import React, { useEffect, useRef, lazy, Suspense } from 'react';
+import React, { useEffect, useRef } from 'react';  // Removed lazy and Suspense
 import { NavBar } from '../components/nav';
 import { Lights } from '../components/lights';
 import { ScrollProgress } from '../components/scroll-progress';
 import { AuroraText } from '../components/aurora-text';
 import { TextGenerateEffect } from '../components/text-generate-effect';
 import { PortfolioCard } from '../components/portfolio-card';
-import FeaturesGrid from '../components/features-grid';  // Changed from named import
+import FeaturesGrid from '../components/features-grid';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import DarkStats from "../components/dark-stats";
-import { useNavigate } from 'react-router-dom';  // Replace next/router import
-// Remove the direct import of AnimatedTestimonials
-const AnimatedTestimonials = lazy(() => import('../components/animated-testimonials'));
+import { useNavigate } from 'react-router-dom';
+import { Mail, Phone, Instagram } from 'lucide-react'; // Added imports
 
 const WordAnimation = ({ words, className = "" }) => {
   const wordsArray = typeof words === 'string' ? words.split(" ") : words;
@@ -106,14 +105,16 @@ export default function Landing() {
   // Add this ref and hook near your other refs
   const statsRef = useRef(null);
   const statsInView = useInView(statsRef, { once: true, margin: "-100px" });
-
-  const testimonialsRef = useRef(null);
-  const testimonialsInView = useInView(testimonialsRef, { once: true, margin: "-100px" });
+  
+  // Add a ref for the contact section
+  const contactRef = useRef(null);
+  const contactInView = useInView(contactRef, { once: true, margin: "-100px" });
 
   return (
     <main className="bg-black w-full min-h-screen relative">
       <ScrollProgress />
-      <div className="w-full h-[4000px] relative bg-grid-white px-4"> {/* Fixed background class */}
+      {/* Remove fixed height of 4000px and adjust to content-based height */}
+      <div className="w-full relative bg-grid-white px-4">
         <div className="relative z-[1] mt-[30vh] flex flex-col items-center">
           <motion.h1 
             style={{ 
@@ -224,35 +225,62 @@ export default function Landing() {
           </div>
         </motion.div>
 
-        {/* After FeaturesGrid */}
+        {/* Contact Me Section - Last section in the document */}
         <motion.div 
-          ref={testimonialsRef}
+          ref={contactRef}
           style={{ translateY: contentY }}
-          className="w-full mt-32 relative z-10"
+          className="w-full mt-32 px-8 pb-48 max-w-7xl mx-auto relative z-10"
         >
-          <div className="space-y-4 text-center mb-12">
+          <div className="space-y-4 text-center mb-16">
             <motion.h2 
-              className="text-4xl font-display font-bold text-[#EFF9F0] flex items-center justify-center"
+              className="text-4xl font-display font-bold text-[#EFF9F0] flex items-center justify-center gap-3"
             >
-              <WordAnimation 
-                words={["My", "Clients", "Feel", "The", <AuroraText>Impact</AuroraText>, "Too"]} 
-                className="mx-0.5"
-              />
+              <WordAnimation words={["Contact", <AuroraText>Me</AuroraText>]} />
             </motion.h2>
           </div>
+          
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={testimonialsInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="transition-transform duration-300 hover:scale-[1.02]"
+            initial={{ opacity: 0, y: 20 }}
+            animate={contactInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, staggerChildren: 0.1 }}
+            className="max-w-2xl mx-auto bg-zinc-900/60 backdrop-blur-sm border border-zinc-50/10 rounded-xl p-8"
           >
-            <Suspense fallback={
-              <div className="h-[600px] w-full flex items-center justify-center">
-                <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-              </div>
-            }>
-              <AnimatedTestimonials />
-            </Suspense>
+            <div className="space-y-6">
+              <motion.a
+                href="mailto:david@camick.org"
+                initial={{ opacity: 0, y: 10 }}
+                animate={contactInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.2 }}
+                className="flex items-center gap-4 text-xl text-[#EFF9F0]/90 hover:text-[#51BBFE] transition-colors"
+              >
+                <Mail size={24} />
+                <span>david@camick.org</span>
+              </motion.a>
+              
+              <motion.a
+                href="tel:4047250528"
+                initial={{ opacity: 0, y: 10 }}
+                animate={contactInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.3 }}
+                className="flex items-center gap-4 text-xl text-[#EFF9F0]/90 hover:text-[#51BBFE] transition-colors"
+              >
+                <Phone size={24} />
+                <span>404-725-0528</span>
+              </motion.a>
+              
+              <motion.a
+                href="https://instagram.com/davidcamick"
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 10 }}
+                animate={contactInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.4 }}
+                className="flex items-center gap-4 text-xl text-[#EFF9F0]/90 hover:text-[#51BBFE] transition-colors"
+              >
+                <Instagram size={24} />
+                <span>instagram.com/davidcamick</span>
+              </motion.a>
+            </div>
           </motion.div>
         </motion.div>
 

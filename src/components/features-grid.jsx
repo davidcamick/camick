@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Camera, Film, Video, Play, Star, X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const portfolioCards = [
   {
@@ -91,10 +92,25 @@ const Modal = ({ isOpen, onClose, card }) => {
 
 const FeaturesGrid = () => {
   const [selectedCard, setSelectedCard] = useState(null);
+  const navigate = useNavigate();
 
   const handleCardClick = (card, e) => {
     e.preventDefault();
-    setSelectedCard(card);
+    
+    // Instead of setting selectedCard, redirect based on card ID
+    if (card.id === 1) {
+      // Cover video - redirect to internal page
+      navigate('/hireme');
+    } else if (card.id === 2) {
+      // Back to business - open external link
+      window.open('https://www.instagram.com/reel/C6efITwoQpR/', '_blank', 'noopener,noreferrer');
+    } else if (card.id === 3) {
+      // SPX Football 2024 - open external link
+      window.open('https://vimeo.com/1048024218?share=copy', '_blank', 'noopener,noreferrer');
+    } else if (card.id === 4) {
+      // Our MVP - open external link
+      window.open('https://www.instagram.com/reel/C44MXDvA78g/', '_blank', 'noopener,noreferrer');
+    }
   };
 
   return (
