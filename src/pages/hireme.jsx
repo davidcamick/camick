@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';  // Added useEffect
 import { motion } from 'framer-motion';
 import { AuroraText } from '../components/aurora-text';
-import { NavBar } from '../components/nav';  // Add this import
+import { NavBar } from '../components/nav';
 
 export default function HireMe() {
   const textVariants = {
@@ -51,6 +51,20 @@ export default function HireMe() {
 
   const words = ['Ready', 'to', 'make', 'an', 'Impact', 'on', 'your', 'business?'];
 
+  // Add useEffect hook for Vimeo script loading
+  useEffect(() => {
+    // Create script element for Vimeo player API
+    const script = document.createElement('script');
+    script.src = 'https://player.vimeo.com/api/player.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    // Cleanup on component unmount
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   return (
     <main className="bg-black min-h-screen text-[#EFF9F0] px-4 py-16 relative"> {/* Added relative */}
       <div className="max-w-7xl mx-auto">
@@ -89,8 +103,15 @@ export default function HireMe() {
             animate="visible"
             className="flex-1 aspect-video bg-gray-900/50 rounded-lg mb-16 overflow-hidden"
           >
-            <div className="w-full h-full flex items-center justify-center border border-white/10">
-              <span className="text-white/50 font-display text-xl">Cover Video Coming Soon</span>
+            {/* Replaced placeholder with Vimeo embed */}
+            <div style={{padding:'56.25% 0 0 0', position:'relative'}}>
+              <iframe 
+                src="https://player.vimeo.com/video/1061880871?h=21ba0ad8ea&badge=0&autopause=0&player_id=0&app_id=58479" 
+                frameBorder="0" 
+                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
+                style={{position:'absolute', top:0, left:0, width:'100%', height:'100%'}} 
+                title="Cover Video 2025"
+              />
             </div>
           </motion.div>
 
