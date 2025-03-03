@@ -2,7 +2,7 @@ import { cn } from '../lib/utils';
 import React, { useEffect, useRef, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-export const NavBar = ({ tabs }) => {
+export const NavBar = ({ tabs, onTabClick, activeTab = 0 }) => {
   const fired = useRef(false);
   const defaultSelectedTabIndex = 0;
   const [currentLink, setCurrentLink] = useState({
@@ -18,6 +18,18 @@ export const NavBar = ({ tabs }) => {
     '[&:nth-child(4)]:dark:bg-white [&:nth-child(4)]:bg-neutral-950'
   ];
 
+  // Update current link when activeTab changes from parent
+  useEffect(() => {
+    fired.current = true;
+    
+    setCurrentLink(() => ({
+      left: document.getElementById('uuu-btn-' + activeTab)?.offsetLeft,
+      width: document.getElementById('uuu-btn-' + activeTab)?.getBoundingClientRect().width,
+      index: activeTab
+    }));
+  }, [activeTab]);
+  
+  // Initial setup
   useEffect(() => {
     setCurrentLink(() => ({
       left: document.getElementById('uuu-btn-' + defaultSelectedTabIndex)?.offsetLeft,
@@ -41,6 +53,7 @@ export const NavBar = ({ tabs }) => {
               width: document.getElementById('uuu-btn-' + i)?.getBoundingClientRect().width,
               index: i
             }));
+            if (onTabClick) onTabClick(i);
           }}
           className={twMerge(
             'transition-colors duration-200 flex items-center justify-center rounded-full h-fit px-2 py-2 text-nowrap font-semibold text-white',
@@ -65,6 +78,20 @@ export const NavBar = ({ tabs }) => {
           />
         </div>
       </div>
+    </div>
+  );
+};
+
+// Single button version for the HireMe page
+export const NavButton = ({ text, onClick }) => {
+  return (
+    <div className={'w-fit relative border dark:border-neutral-800 border-neutral-300 rounded-full flex items-center justify-center px-3 py-2 backdrop-blur-2xl hover:scale-105 transition-transform duration-300 ease-in-out bg-black'}>
+      <button
+        onClick={onClick}
+        className={'transition-colors duration-200 flex items-center justify-center rounded-full h-fit px-2 py-2 text-nowrap font-semibold text-black bg-white'}
+      >
+        {text}
+      </button>
     </div>
   );
 };

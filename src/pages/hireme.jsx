@@ -1,9 +1,12 @@
-import React, { useEffect } from 'react';  // Added useEffect
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { AuroraText } from '../components/aurora-text';
-import { NavBar } from '../components/nav';
+import { useNavigate } from 'react-router-dom';
+import { Lights } from '../components/lights';
+import { ScrollProgress } from '../components/scroll-progress';
 
 export default function HireMe() {
+  const navigate = useNavigate();
   const textVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: (i) => ({
@@ -18,19 +21,19 @@ export default function HireMe() {
   };
 
   const impactVariants = {
-    hidden: { opacity: 0, y: 50, scale: 0.2 },// Much more dramatic scale
+    hidden: { opacity: 0, y: 50, scale: 0.2 },
     visible: {
       opacity: 1,
       y: [50, -30, 0],
-      scale: [0.2, 1.2, 1], // Much more dramatic scale
-      rotateZ: [0, -10, 0], // Add slight rotation for more punch
+      scale: [0.2, 1.2, 1],
+      rotateZ: [0, -10, 0],
       transition: {
         duration: 0.8,
         times: [0, 2.5, 1],
         delay: 0.4,
         type: "spring",
         stiffness: 200,
-        damping: 25 // Much bouncier
+        damping: 25
       }
     }
   };
@@ -44,7 +47,7 @@ export default function HireMe() {
         type: "spring",
         stiffness: 200,
         damping: 20,
-        delay: 0.8 // Start after text animation
+        delay: 0.8
       }
     }
   };
@@ -53,21 +56,40 @@ export default function HireMe() {
 
   // Add useEffect hook for Vimeo script loading
   useEffect(() => {
-    // Create script element for Vimeo player API
     const script = document.createElement('script');
     script.src = 'https://player.vimeo.com/api/player.js';
     script.async = true;
     document.body.appendChild(script);
 
-    // Cleanup on component unmount
     return () => {
-      document.body.removeChild(script);
+      if (document.body.contains(script)) {
+        document.body.removeChild(script);
+      }
     };
   }, []);
 
   return (
-    <main className="bg-black min-h-screen text-[#EFF9F0] px-4 py-16 relative"> {/* Added relative */}
-      <div className="max-w-7xl mx-auto">
+    <main className="bg-black min-h-screen text-[#EFF9F0] px-4 py-16 relative">
+      <ScrollProgress />
+      {/* Back button remains at a high z-index */}
+      <motion.button
+        onClick={() => navigate('/')}
+        className="absolute top-8 left-8 px-6 py-3 
+          bg-gradient-to-r from-purple-600/20 via-blue-600/20 to-purple-600/20 
+          border border-white/20 rounded-lg text-[#EFF9F0] hover:bg-white/10 
+          transition-all duration-300 backdrop-blur-sm shadow-[0_0_15px_rgba(255,255,255,0.1)]
+          animate-gradient-x bg-[length:200%_100%] z-50"
+      >
+        ← Back
+      </motion.button>
+      
+      {/* Move the lights/gradient to the bottom layer with lower z-index */}
+      <div className={'absolute bottom-0 left-0 w-full h-full z-[-1] animate-appear opacity-0'}>
+        <Lights />
+      </div>
+      
+      {/* Main content with higher z-index */}
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* Animated Header */}
         <div className="text-6xl font-display font-bold text-center mb-12 flex flex-wrap justify-center gap-x-4">
           {words.map((word, i) => (
@@ -95,8 +117,8 @@ export default function HireMe() {
           ))}
         </div>
 
-        {/* Animated Video Section with Description */}
-        <div className="max-w-[90%] mx-auto flex items-start gap-12">
+        {/* Animated Video Section with Description - ensure it's above the background */}
+        <div className="max-w-[90%] mx-auto flex items-start gap-12 relative z-20">
           <motion.div 
             variants={videoVariants}
             initial="hidden"
@@ -109,7 +131,7 @@ export default function HireMe() {
                 src="https://player.vimeo.com/video/1061880871?h=21ba0ad8ea&badge=0&autopause=0&player_id=0&app_id=58479" 
                 frameBorder="0" 
                 allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
-                style={{position:'absolute', top:0, left:0, width:'100%', height:'100%'}} 
+                style={{position:'absolute', top:0, left:0, width:'100%', height:'100%', pointerEvents: 'auto'}} 
                 title="Cover Video 2025"
               />
             </div>
@@ -137,7 +159,7 @@ export default function HireMe() {
 
         {/* Resume Section - Updated with Google Doc */}
         <motion.div
-          className="max-w-4xl mx-auto"
+          className="max-w-4xl mx-auto relative z-20"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.2 }}
@@ -163,16 +185,11 @@ export default function HireMe() {
                 className="w-full h-full absolute inset-0 border-none bg-white"
                 title="Resume 2025"
                 loading="lazy"
+                style={{pointerEvents: 'auto'}}
               />
             </div>
           </div>
         </motion.div>
-
-      </div>
-
-      {/* Add NavBar */}
-      <div className="fixed bottom-0 left-1/2 -translate-x-1/2 pb-8 z-40">
-        <NavBar tabs={['About Me', 'My Achievements', 'My Work', 'Contact']} />
       </div>
     </main>
   );

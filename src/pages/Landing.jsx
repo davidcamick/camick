@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';  // Removed lazy and Suspense
+import React, { useEffect, useRef, useState } from 'react';  // Added useState
 import { NavBar } from '../components/nav';
 import { Lights } from '../components/lights';
 import { ScrollProgress } from '../components/scroll-progress';
@@ -58,6 +58,15 @@ export default function Landing() {
   const textContentRef = useRef(null);
   const descriptionRef = useRef(null);
 
+  // Section refs for scrolling
+  const aboutMeRef = useRef(null);
+  const achievementsRef = useRef(null); 
+  const myWorkRef = useRef(null);
+  const contactRef = useRef(null);
+  
+  // Add state to track the active section
+  const [activeSection, setActiveSection] = useState(0);
+
   const updateWidth = () => {
     if (textContentRef.current && descriptionRef.current) {
       const width = textContentRef.current.getBoundingClientRect().width - 4.47;
@@ -107,8 +116,61 @@ export default function Landing() {
   const statsInView = useInView(statsRef, { once: true, margin: "-100px" });
   
   // Add a ref for the contact section
-  const contactRef = useRef(null);
   const contactInView = useInView(contactRef, { once: true, margin: "-100px" });
+
+  // Function to handle navigation tab clicks
+  const handleNavTabClick = (index) => {
+    const refs = [aboutMeRef, achievementsRef, myWorkRef, contactRef];
+    if (refs[index] && refs[index].current) {
+      // Improved scroll behavior with better offset and easing
+      const yOffset = -120; 
+      const element = refs[index].current;
+      const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
+      
+      // Set active section when clicking
+      setActiveSection(index);
+      
+      window.scrollTo({
+        top: y,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  // Add effect to determine which section is in view based on scroll position
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 250; // Added offset to trigger earlier
+      
+      // Get positions of each section
+      const aboutMePosition = aboutMeRef.current?.offsetTop || 0;
+      const achievementsPosition = achievementsRef.current?.offsetTop || 0;
+      const myWorkPosition = myWorkRef.current?.offsetTop || 0;
+      const contactPosition = contactRef.current?.offsetTop || 0;
+      
+      // Determine which section is currently in view
+      if (scrollPosition < achievementsPosition) {
+        setActiveSection(0); // About Me
+      } else if (scrollPosition < myWorkPosition) {
+        setActiveSection(1); // Achievements
+      } else if (scrollPosition < contactPosition) {
+        setActiveSection(2); // My Work
+      } else {
+        setActiveSection(3); // Contact
+      }
+    };
+    
+    // Add scroll event listener
+    window.addEventListener('scroll', handleScroll);
+    
+    // Initial call to set correct active section on load
+    handleScroll();
+    
+    // Clean up event listener
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
     <main className="bg-black w-full min-h-screen relative">
@@ -162,6 +224,8 @@ export default function Landing() {
             </motion.button>
           </motion.div>
           <motion.div 
+            ref={aboutMeRef}
+            id="about"  // Add ID for navigation
             style={{ translateY: portfolioY }}
             className="w-full flex items-center px-20 mt-32" // Added top margin to lower initial position
           >
@@ -199,12 +263,18 @@ export default function Landing() {
         </div>
 
         {/* Added extra margin-top here */}
-        <div ref={statsRef} className="mt-[30vh]">
+        <div 
+          ref={achievementsRef}
+          id="achievements"  // Add ID for navigation
+          className="mt-[30vh]"
+        >
           <DarkStats titleInView={statsInView} transformY={statsY} />
         </div>
 
         {/* Updated Features Grid section */}
         <motion.div 
+          ref={myWorkRef}
+          id="work"  // Add ID for navigation
           style={{ translateY: contentY }}
           className="w-full mt-32 px-8 max-w-7xl mx-auto relative z-10" // Added z-index
         >
@@ -228,6 +298,7 @@ export default function Landing() {
         {/* Contact Me Section - Last section in the document */}
         <motion.div 
           ref={contactRef}
+          id="contact"  // Add ID for navigation
           style={{ translateY: contentY }}
           className="w-full mt-32 px-8 pb-48 max-w-7xl mx-auto relative z-10"
         >
@@ -286,7 +357,7 @@ export default function Landing() {
 
         {/* Keep existing footer elements */}
         <div className="fixed bottom-0 left-1/2 -translate-x-1/2 pb-8 z-40"> {/* Changed from z-50 */}
-          <NavBar tabs={['About Me', 'My Achievements', 'My Work', 'Contact']} />
+          <NavBar tabs={['About Me', 'My Achievements', 'My Work', 'Contact']} onTabClick={handleNavTabClick} activeTab={activeSection} />
         </div>
         <div className={'absolute bottom-0 left-0 w-full h-full z-0 animate-appear opacity-0'}>
           <Lights />
