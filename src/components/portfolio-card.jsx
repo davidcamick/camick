@@ -27,7 +27,7 @@ export function PortfolioCard() {
         className='flex max-w-[270px] flex-col overflow-hidden border border-zinc-50/10 bg-zinc-900 hover:scale-105 hover:border-zinc-50/20 transition-all duration-300 ease-out hover:shadow-lg hover:shadow-zinc-50/5'
       >
         <MorphingDialogImage
-          src='/assets/david_ote1.jpg'
+          src='/assets/david_ote1.jpeg'
           alt='David Otero professional photo'
           className='h-[286px] w-[270px] object-cover object-[center_20%]'
         />
@@ -57,7 +57,7 @@ export function PortfolioCard() {
           className='pointer-events-auto relative flex h-auto w-full flex-col overflow-hidden border border-zinc-50/10 bg-zinc-900 sm:w-[800px]'
         >
           <MorphingDialogImage
-            src='/assets/david_ote1.jpg'
+            src='/assets/david_ote1.jpeg'
             alt='David Otero professional photo'
             className='h-[450px] w-full object-cover object-[center_20%]'
           />
