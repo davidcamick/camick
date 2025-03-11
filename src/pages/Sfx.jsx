@@ -192,7 +192,7 @@ export default function Sfx() {
                 className="mt-8 mb-8"
               >
                 <img 
-                  src="/assets/sfxpack1.webp" 
+                  src="https://camick.org/assets/sfxpack1.webp" 
                   alt="Camick SFX Pack" 
                   className="w-full max-w-2xl mx-auto rounded-xl shadow-2xl"
                 />
@@ -255,7 +255,7 @@ export default function Sfx() {
                 className="mt-8 mb-8"
               >
                 <img 
-                  src="/assets/sfxpack2.png" 
+                  src="https://camick.org/assets/sfxpack2.png" 
                   alt="SFX Pack Preview" 
                   className="w-full max-w-2xl mx-auto rounded-xl shadow-2xl"
                 />
@@ -335,9 +335,9 @@ export default function Sfx() {
             
             {/* Mobile-optimized track list */}
             {[
-              { name: 'Bang Bang Curry', duration: '0:14', file: '/assets/demosfx/Bang Bang Curry.wav' },
-              { name: 'Slam Dunk 4 - Crowd Reax', duration: '0:08', file: '/assets/demosfx/Slam Dunk 4 - Crowd Reax.wav' },
-              { name: 'Woosh for Big Hits', duration: '0:03', file: '/assets/demosfx/Woosh for Big Hits.wav' }
+              { name: 'Bang Bang Curry', duration: '0:14', file: 'https://camick.org/assets/demosfx/Bang Bang Curry.wav' },
+              { name: 'Slam Dunk 4 - Crowd Reax', duration: '0:08', file: 'https://camick.org/assets/demosfx/Slam Dunk 4 - Crowd Reax.wav' },
+              { name: 'Woosh for Big Hits', duration: '0:03', file: 'https://camick.org/assets/demosfx/Woosh for Big Hits.wav' }
             ].map((track, index) => (
               <motion.div 
                 key={index}
