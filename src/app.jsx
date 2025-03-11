@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Landing from './pages/Landing';
 import HireMe from './pages/hireme';
+import Sfx from './pages/Sfx'; // Import the new Sfx page
 
 // Helper component to handle scroll to section when navigating
 const ScrollToSection = () => {
@@ -63,6 +64,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/hireme" element={<HireMe />} />
+        <Route path="/sfx" element={<Sfx />} /> {/* Add new route for SFX page */}
         <Route path="*" element={<Landing />} />
       </Routes>
     </Router>
