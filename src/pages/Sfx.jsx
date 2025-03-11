@@ -410,7 +410,7 @@ export default function Sfx() {
               <motion.h2 
                 className="text-3xl font-display font-bold text-[#EFF9F0]"
               >
-                <AuroraText>Get The Pack</AuroraText>
+                <AuroraText>Ready to Level Up Your Content?</AuroraText>
               </motion.h2>
             </div>
             
@@ -423,39 +423,38 @@ export default function Sfx() {
             >
               <div className="p-6">
                 <div className="inline-block px-3 py-1 bg-[#51BBFE]/20 rounded-full text-[#51BBFE] font-medium text-xs mb-4">
-                  LIMITED TIME OFFER
+                  ON SALE NOW
                 </div>
-                <h3 className="text-2xl font-bold text-[#EFF9F0] mb-2">Pro SFX Pack</h3>
-                <div className="flex items-center justify-center gap-2 mb-4">
-                  <span className="text-[#EFF9F0]/60 text-base line-through">$79.99</span>
-                  <span className="text-3xl font-bold text-[#EFF9F0]">$49.99</span>
-                </div>
+                <h3 className="text-2xl font-bold text-[#EFF9F0] mb-2">Camick SFX Pack</h3>
                 <ul className="space-y-2 text-left mb-6 text-sm">
                   <li className="flex items-center gap-2 text-[#EFF9F0]/80">
-                    <span className="text-[#51BBFE]">✓</span> 300+ Professional Sound Effects
+                    <span className="text-[#51BBFE]">✓</span> 3,000+ Professional Sound Effects
                   </li>
                   <li className="flex items-center gap-2 text-[#EFF9F0]/80">
-                    <span className="text-[#51BBFE]">✓</span> Royalty-Free License
+                    <span className="text-[#51BBFE]">✓</span> 3.5GB of High-Quality Audio
                   </li>
                   <li className="flex items-center gap-2 text-[#EFF9F0]/80">
-                    <span className="text-[#51BBFE]">✓</span> Organized by Categories
+                    <span className="text-[#51BBFE]">✓</span> Compatible with All Major Editing Software
                   </li>
                   <li className="flex items-center gap-2 text-[#EFF9F0]/80">
-                    <span className="text-[#51BBFE]">✓</span> WAV + MP3 Formats
+                    <span className="text-[#51BBFE]">✓</span> Organized into Clear Categories
                   </li>
                   <li className="flex items-center gap-2 text-[#EFF9F0]/80">
-                    <span className="text-[#51BBFE]">✓</span> Lifetime Updates
+                    <span className="text-[#51BBFE]">✓</span> Instant Digital Download
                   </li>
                 </ul>
-                <button className="w-full px-6 py-4 bg-[#51BBFE] hover:bg-[#51BBFE]/90 text-black font-bold rounded-lg transition-all duration-300 shadow-lg shadow-[#51BBFE]/20 active:scale-98 touch-manipulation text-base">
-                  Turn Up Your Videos Today
-                </button>
-                <div className="mt-3 text-[#EFF9F0]/60 text-xs">
-                  Instant Digital Delivery
-                </div>
+                <a 
+                  href="https://payhip.com/b/cMQWK"
+                  target="_blank"
+                  rel="noopener noreferrer" 
+                  className="block w-full px-6 py-4 bg-[#51BBFE] hover:bg-[#51BBFE]/90 text-black font-bold rounded-lg transition-all duration-300 shadow-lg shadow-[#51BBFE]/20 active:scale-98 touch-manipulation text-base text-center"
+                >
+                  Go To Product Page
+                </a>
               </div>
             </motion.div>
           </motion.div>
+
         </div>
 
         {/* Background elements */}
