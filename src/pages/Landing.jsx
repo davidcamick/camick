@@ -172,6 +172,10 @@ export default function Landing() {
     };
   }, []);
 
+  useEffect(() => {
+    document.title = 'Camick Portfolio';
+  }, []);
+
   return (
     <main className="bg-black w-full min-h-screen relative">
       <ScrollProgress />

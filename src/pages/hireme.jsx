@@ -68,6 +68,13 @@ export default function HireMe() {
     };
   }, []);
 
+  useEffect(() => {
+    document.title = 'Hire Me | Camick Portfolio';
+    return () => {
+      document.title = 'Camick Portfolio';
+    };
+  }, []);
+
   return (
     <main className="bg-black min-h-screen text-[#EFF9F0] px-4 py-16 relative">
       <ScrollProgress />

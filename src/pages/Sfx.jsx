@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Lights } from '../components/lights';
 import { ScrollProgress } from '../components/scroll-progress';
 import { AuroraText } from '../components/aurora-text';
@@ -139,16 +139,23 @@ export default function Sfx() {
     }
   };
 
+  // Fix the corrupted useEffect
+  useEffect(() => {
+    document.title = 'Camick SFX Pack';
+    return () => {
+      document.title = 'Camick Portfolio';
+    };
+  }, []);
+
   return (
     <main className="bg-black w-full min-h-screen relative">
       <ScrollProgress />
       <div className="w-full relative bg-grid-white px-4">
         <div className="relative z-[1] flex flex-col items-center">
-          {/* Hero Section */}
           <motion.div 
             className="h-screen flex flex-col items-center justify-center"
           >
-            <motion.h1 
+            <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
@@ -157,7 +164,7 @@ export default function Sfx() {
               <AuroraText className="text-5xl sm:text-6xl font-display font-bold [text-shadow:_0_0_30px_rgb(255_255_255_/_20%)]">
                 Don't Strive to just Fit In.
               </AuroraText>
-            </motion.h1>
+            </motion.div>
             
             <motion.div
               initial={{ opacity: 0, y: 10 }}
@@ -456,11 +463,11 @@ export default function Sfx() {
           </motion.div>
 
         </div>
+      </div>
 
-        {/* Background elements */}
-        <div className={'absolute bottom-0 left-0 w-full h-full z-0 animate-appear opacity-0'}>
-          <Lights />
-        </div>
+      {/* Background elements */}
+      <div className={'absolute bottom-0 left-0 w-full h-full z-0 animate-appear opacity-0'}>
+        <Lights />
       </div>
     </main>
   );
