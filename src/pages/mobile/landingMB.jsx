@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { AuroraText } from '../components/aurora-text';
+import { AuroraText } from '../../components/aurora-text';
 
 export default function Mobile() {
   return (
@@ -92,7 +92,7 @@ export default function Mobile() {
               <motion.div className="w-[90%] h-[45%] mb-4 bg-zinc-900/60 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden">
                 <button
                   className="w-full h-full text-[#EFF9F0] text-xl flex flex-col justify-center items-start px-8"
-                  onClick={() => window.location.href = '/hireme'}
+                  onClick={() => window.location.href = '/hirememobile'}
                 >
                   <div className="flex items-center">
                     <span className="text-[#EFF9F0]/70">My</span>
@@ -108,7 +108,7 @@ export default function Mobile() {
               <motion.div className="w-[90%] h-[45%] bg-zinc-900/60 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden">
                 <button
                   className="w-full h-full text-[#EFF9F0] text-2xl flex flex-col justify-center items-end px-8"
-                  onClick={() => window.location.href = '/sfx'}
+                  onClick={() => window.location.href = '/linksmobile'}
                 >
                   <div className="flex items-center">
                     <span className="text-[#EFF9F0]/70">My</span>

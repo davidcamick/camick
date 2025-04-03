@@ -1,8 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Lights } from '../components/lights';
-import { ScrollProgress } from '../components/scroll-progress';
-import { AuroraText } from '../components/aurora-text';
-import { TextGenerateEffect } from '../components/text-generate-effect';
+import { Lights } from '../../components/lights';
+import { ScrollProgress } from '../../components/scroll-progress';
+import { AuroraText } from '../../components/aurora-text';
+import { TextGenerateEffect } from '../../components/text-generate-effect';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 
 const WordAnimation = ({ words, className = "" }) => {

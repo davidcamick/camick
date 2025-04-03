@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { AuroraText } from '../components/aurora-text';
+import { AuroraText } from '../../components/aurora-text';
 import { useNavigate } from 'react-router-dom';
-import { Lights } from '../components/lights';
-import { ScrollProgress } from '../components/scroll-progress';
+import { Lights } from '../../components/lights';
+import { ScrollProgress } from '../../components/scroll-progress';
 
 export default function HireMe() {
   const navigate = useNavigate();

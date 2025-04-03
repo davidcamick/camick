@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';  // Added useState
-import { NavBar } from '../components/nav';
-import { Lights } from '../components/lights';
-import { ScrollProgress } from '../components/scroll-progress';
-import { AuroraText } from '../components/aurora-text';
-import { TextGenerateEffect } from '../components/text-generate-effect';
-import { PortfolioCard } from '../components/portfolio-card';
-import FeaturesGrid from '../components/features-grid';
+import { NavBar } from '../../components/nav';
+import { Lights } from '../../components/lights';
+import { ScrollProgress } from '../../components/scroll-progress';
+import { AuroraText } from '../../components/aurora-text';
+import { TextGenerateEffect } from '../../components/text-generate-effect';
+import { PortfolioCard } from '../../components/portfolio-card';
+import FeaturesGrid from '../../components/features-grid';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
-import DarkStats from "../components/dark-stats";
+import DarkStats from "../../components/dark-stats";
 import { useNavigate } from 'react-router-dom';
 import { Mail, Phone, Instagram } from 'lucide-react'; // Added imports
 

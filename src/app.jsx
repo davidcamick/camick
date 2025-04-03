@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import Landing from './pages/Landing';
-import HireMe from './pages/hireme';
-import Sfx from './pages/Sfx'; // Import the new Sfx page
-import Mobile from './pages/mobile'; // Add import
+import LandingDT from './pages/desktop/landingDT';
+import HireMeDT from './pages/desktop/hiremeDT';
+import LandingMB from './pages/mobile/landingMB';
+import HireMeMB from './pages/mobile/hiremeMB';
+import SfxMB from './pages/mobile/sfxMB';
+import LinksMB from './pages/mobile/linksMB';
+import Contact from './pages/cross-platform/contact';
 
 // Helper function to detect mobile devices
 const isMobileDevice = () => {
@@ -18,6 +21,13 @@ const MobileRedirect = () => {
     const checkAndRedirect = () => {
       const isMobile = isMobileDevice();
       const onMobilePath = window.location.pathname === '/mobile';
+      const isSfxPath = window.location.pathname === '/sfx';
+      const isLinksMobilePath = window.location.pathname === '/linksmobile';
+      const isHireMeMobilePath = window.location.pathname === '/hirememobile';
+      const isContactPath = window.location.pathname === '/contact';
+      
+      // Skip redirection for all mobile-specific paths
+      if (isSfxPath || isHireMeMobilePath || isLinksMobilePath || isContactPath) return;
       
       if (isMobile && !onMobilePath) {
         window.location.href = `${window.location.origin}/mobile`;
@@ -32,7 +42,7 @@ const MobileRedirect = () => {
     // Check on resize
     window.addEventListener('resize', checkAndRedirect);
 
-    // Check on page visibility change (handles when user returns to tab)
+    // Check on page visibility change
     document.addEventListener('visibilitychange', checkAndRedirect);
 
     return () => {
@@ -91,9 +101,8 @@ const RedirectHandler = () => {
       navigate('/#achievements', { replace: true });
     } else if (location.pathname === '/work') {
       navigate('/#work', { replace: true });
-    } else if (location.pathname === '/contact') {
-      navigate('/#contact', { replace: true });
     }
+    // Removed contact redirect to allow standalone contact page
   }, [location, navigate]);
   
   return null;
@@ -106,11 +115,14 @@ function App() {
       <ScrollToSection />
       <RedirectHandler />
       <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/hireme" element={<HireMe />} />
-        <Route path="/sfx" element={<Sfx />} /> {/* Add new route for SFX page */}
-        <Route path="/mobile" element={<Mobile />} /> {/* Updated to use Mobile component */}
-        <Route path="*" element={<Landing />} />
+        <Route path="/" element={<LandingDT />} />
+        <Route path="/hireme" element={<HireMeDT />} />
+        <Route path="/mobile" element={<LandingMB />} />
+        <Route path="/hirememobile" element={<HireMeMB />} />
+        <Route path="/sfx" element={<SfxMB />} />
+        <Route path="/linksmobile" element={<LinksMB />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="*" element={<LandingDT />} />
       </Routes>
     </Router>
   );
