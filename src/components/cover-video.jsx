@@ -11,16 +11,14 @@ const CoverVideo = () => {
     >
       <div className="relative w-full h-0 pb-[56.25%] rounded-xl overflow-hidden border border-zinc-50/10 shadow-2xl">
         <iframe 
-          src="https://player.vimeo.com/video/1068645245?h=3cbbac1d8f&badge=0&autopause=0&player_id=0&app_id=58479&loop=1" 
+          src="https://drive.google.com/file/d/1e3VIqVGylZ9uFqixnaT1X81UvzDLHOsd/preview" 
           frameBorder="0" 
-          allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
-          referrerPolicy="strict-origin-when-cross-origin" 
+          allow="autoplay; fullscreen; picture-in-picture" 
           style={{position:"absolute",top:0,left:0,width:"100%",height:"100%"}} 
-          title="CAMICK - Cover Video 2025"
+          title="The Fish Bowl - Cover Video"
           className="rounded-xl"
         />
       </div>
-      <script src="https://player.vimeo.com/api/player.js"></script>
     </motion.div>
   );
 };

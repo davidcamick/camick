@@ -7,11 +7,11 @@ const portfolioCards = [
   {
     id: 1,
     title: "My Showreel",
-    subtitle: "Cover Video - 2025",
-    description: "My best work of 2024-25 compiled into one video",
+    subtitle: "Best of 2024-25",
+    description: "A compilation of my favorite projects and highlights from this year",
     icons: [Camera, Star, Video, Play, Film],
     span: "md:col-span-2",
-    link: "https://instagram.com"
+    link: "https://vimeo.com/1068645245/3cbbac1d8f"
   },
   {
     id: 2,
@@ -99,8 +99,8 @@ const FeaturesGrid = () => {
     
     // Instead of setting selectedCard, redirect based on card ID
     if (card.id === 1) {
-      // Cover video - redirect to internal page
-      navigate('/hireme');
+      // Showreel - open Vimeo link
+      window.open('https://vimeo.com/1068645245/3cbbac1d8f', '_blank', 'noopener,noreferrer');
     } else if (card.id === 2) {
       // Back to business - open external link
       window.open('https://www.instagram.com/reel/C6efITwoQpR/', '_blank', 'noopener,noreferrer');
