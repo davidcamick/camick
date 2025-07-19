@@ -5,15 +5,6 @@ import { useNavigate } from "react-router-dom";
 
 const portfolioCards = [
   {
-    id: 1,
-    title: "My Showreel",
-    subtitle: "Cover Video - 2025",
-    description: "My best work of 2024-25 compiled into one video",
-    icons: [Camera, Star, Video, Play, Film],
-    span: "md:col-span-2",
-    link: "https://instagram.com"
-  },
-  {
     id: 2,
     title: "Back To Business",
     description: "A high energy workout mixtape made for D1 college basketball player Liam Mullins",
@@ -22,10 +13,10 @@ const portfolioCards = [
   },
   {
     id: 3,
-    title: "SPX Football 2024",
-    description: "A season overview for the St.Pius X catholic school's football team",
-    span: "",
-    link: "https://instagram.com/reels/spx",
+    title: "The Fish Bowl",
+    description: "A hype video made for the largest rivalry in Georgia, Narrated by a former player",
+    span: "md:col-span-2",
+    link: "https://drive.google.com/drive/folders/1-vkZCEr-ZBd11RWf00TZ2Ih93-DeYGiZ",
   },
   {
     id: 4,
@@ -98,15 +89,12 @@ const FeaturesGrid = () => {
     e.preventDefault();
     
     // Instead of setting selectedCard, redirect based on card ID
-    if (card.id === 1) {
-      // Cover video - redirect to internal page
-      navigate('/hireme');
-    } else if (card.id === 2) {
+    if (card.id === 2) {
       // Back to business - open external link
       window.open('https://www.instagram.com/reel/C6efITwoQpR/', '_blank', 'noopener,noreferrer');
     } else if (card.id === 3) {
-      // SPX Football 2024 - open external link
-      window.open('https://vimeo.com/1048024218?share=copy', '_blank', 'noopener,noreferrer');
+      // The Fish Bowl - open Google Drive folder
+      window.open('https://drive.google.com/drive/folders/1-vkZCEr-ZBd11RWf00TZ2Ih93-DeYGiZ', '_blank', 'noopener,noreferrer');
     } else if (card.id === 4) {
       // Our MVP - open external link
       window.open('https://www.instagram.com/reel/C44MXDvA78g/', '_blank', 'noopener,noreferrer');
@@ -135,16 +123,15 @@ const FeaturesGrid = () => {
                   scale: 1.02
                 }}
                 whileTap={{ scale: 0.98 }}
-                className={`${card.id === 1 || card.id === 2 || card.id === 3 || card.id === 4 ? `
+                className={`${card.id === 2 || card.id === 3 || card.id === 4 ? `
                   relative overflow-hidden
                 ` : 'bg-zinc-900'} h-full
                   p-8 rounded-xl cursor-pointer
                   transition-all duration-300`}
               >
-                {(card.id === 1 || card.id === 2 || card.id === 3 || card.id === 4) && (
+                {(card.id === 2 || card.id === 3 || card.id === 4) && (
                   <>
                     <div className={`absolute inset-0 -z-10 bg-cover bg-center ${
-                      card.id === 1 ? "bg-[url('/assets/portfolio-image.jpg')]" : 
                       card.id === 2 ? "bg-[url('/assets/backtobusiness.jpg')]" :
                       card.id === 3 ? "bg-[url('/assets/footballend.jpg')]" :
                       "bg-[url('/assets/showtime.jpg')]"

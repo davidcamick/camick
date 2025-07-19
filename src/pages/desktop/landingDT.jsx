@@ -6,6 +6,8 @@ import { AuroraText } from '../../components/aurora-text';
 import { TextGenerateEffect } from '../../components/text-generate-effect';
 import { PortfolioCard } from '../../components/portfolio-card';
 import FeaturesGrid from '../../components/features-grid';
+import CoverVideo from '../../components/cover-video';
+import FishBowlVideo from '../../components/fish-bowl-video';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import DarkStats from "../../components/dark-stats";
 import { useNavigate } from 'react-router-dom';
@@ -290,10 +292,18 @@ export default function Landing() {
             </motion.h2>
             <div className="text-[#EFF9F0]/60 text-lg">
               <WordAnimation 
-                words="Check out some of my favorite videos, along with my cover video for 2025" 
+                words="Check out my cover video for 2025 and featured work" 
               />
             </div>
           </div>
+          
+          {/* Cover Video Section - Showreel at the top */}
+          <CoverVideo />
+          
+          {/* Fish Bowl Video Section - Where cover video was before */}
+          <FishBowlVideo />
+          
+          {/* Featured Work Section */}
           <div className="transition-transform duration-300 hover:scale-[1.02]">
             <FeaturesGrid />
           </div>
