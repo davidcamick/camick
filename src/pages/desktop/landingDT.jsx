@@ -291,7 +291,7 @@ export default function Landing() {
             </motion.h2>
             <div className="text-[#EFF9F0]/60 text-lg">
               <WordAnimation 
-                words="Check out my cover video for 2025 and featured work" 
+                words="Check out my cover video for 2025 and some of my favorite work" 
               />
             </div>
           </div>
