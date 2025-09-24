@@ -7,6 +7,8 @@ import HireMeMB from './pages/mobile/hiremeMB';
 import SfxMB from './pages/mobile/sfxMB';
 import LinksMB from './pages/mobile/linksMB';
 import Contact from './pages/cross-platform/contact';
+import WorthyPrivacy from './pages/cross-platform/worthyPrivacy';
+import WorthySupport from './pages/cross-platform/worthySupport';
 
 // Helper function to detect mobile devices
 const isMobileDevice = () => {
@@ -25,9 +27,11 @@ const MobileRedirect = () => {
       const isLinksMobilePath = window.location.pathname === '/linksmobile';
       const isHireMeMobilePath = window.location.pathname === '/hirememobile';
       const isContactPath = window.location.pathname === '/contact';
+      const isWorthyPrivacyPath = window.location.pathname === '/worthy-privacy';
+      const isWorthySupportPath = window.location.pathname === '/worthy-support';
       
-      // Skip redirection for all mobile-specific paths
-      if (isSfxPath || isHireMeMobilePath || isLinksMobilePath || isContactPath) return;
+      // Skip redirection for all mobile-specific paths and worthy pages
+      if (isSfxPath || isHireMeMobilePath || isLinksMobilePath || isContactPath || isWorthyPrivacyPath || isWorthySupportPath) return;
       
       if (isMobile && !onMobilePath) {
         window.location.href = `${window.location.origin}/mobile`;
@@ -122,6 +126,8 @@ function App() {
         <Route path="/sfx" element={<SfxMB />} />
         <Route path="/linksmobile" element={<LinksMB />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/worthy-privacy" element={<WorthyPrivacy />} />
+        <Route path="/worthy-support" element={<WorthySupport />} />
         <Route path="*" element={<LandingDT />} />
       </Routes>
     </Router>
