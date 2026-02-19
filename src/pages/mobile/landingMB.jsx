@@ -50,7 +50,7 @@ export default function Mobile() {
               transition={{ duration: 0.5, delay: 1.4 }}
               className="text-[#EFF9F0]/80 text-xl mb-8 relative w-full"
             >
-              Sports Videography
+              Sports &amp; Event Videography
             </motion.span>
           </div>
 

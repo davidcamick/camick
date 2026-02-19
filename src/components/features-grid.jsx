@@ -15,24 +15,38 @@ const portfolioCards = [
   },
   {
     id: 2,
-    title: "Back To Business",
-    description: "A high energy workout mixtape made for D1 college basketball player Liam Mullins",
+    title: "Revenge: Alabama vs Vanderbilt",
+    description: "A high energy recap of the College Gameday presentation of Alabama vs Vanderbilt completely shot and edited by me in under 4 hours.",
     span: "",
-    link: "https://instagram.com/reels/456",
+    link: "https://drive.google.com/file/d/161jqiYb439pP4qnf8kUWEfzrjzxVbno6/view?usp=drive_link",
   },
   {
     id: 3,
-    title: "SPX Football 2024",
-    description: "A season overview for the St.Pius X catholic school's football team",
+    title: "Alabama Season Recap 2025",
+    description: "A long form Recap video of the 2025 Alabama Season. Edited by Me",
     span: "",
-    link: "https://instagram.com/reels/spx",
+    link: "https://google.com",
   },
   {
     id: 4,
-    title: "Our MVP: Jahki Howard",
-    description: "A short highlight reel made for Overtime Elite's \"City Reaper's\" Team celebrating his graduation, and transfer to the University of Auburn's Basketball team.",
+    title: "Back To Business",
+    description: "A high energy workout mixtape made for D1 college basketball player Liam Mullins",
     span: "md:col-span-2",
-    link: "https://instagram.com/reels/789",
+    link: "https://www.instagram.com/reel/C6efITwoQpR/",
+  },
+  {
+    id: 5,
+    title: "NEON",
+    description: "BYX Neon party event video. Shot and Edited by me, delivered 3 hours after the end of the party",
+    span: "",
+    link: "https://www.instagram.com/reel/DT313FcD16W/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+  },
+  {
+    id: 6,
+    title: "The Fish Bowl",
+    description: "A hype video for St. Pius X vs Marist, Georgia Highschool Football's biggest rivalry",
+    span: "md:col-span-2",
+    link: "https://drive.google.com/file/d/1e3VIqVGylZ9uFqixnaT1X81UvzDLHOsd/view?usp=sharing",
   },
 ];
 
@@ -97,19 +111,10 @@ const FeaturesGrid = () => {
   const handleCardClick = (card, e) => {
     e.preventDefault();
     
-    // Instead of setting selectedCard, redirect based on card ID
     if (card.id === 1) {
-      // Cover video - redirect to internal page
       navigate('/hireme');
-    } else if (card.id === 2) {
-      // Back to business - open external link
-      window.open('https://www.instagram.com/reel/C6efITwoQpR/', '_blank', 'noopener,noreferrer');
-    } else if (card.id === 3) {
-      // SPX Football 2024 - open external link
-      window.open('https://vimeo.com/1048024218?share=copy', '_blank', 'noopener,noreferrer');
-    } else if (card.id === 4) {
-      // Our MVP - open external link
-      window.open('https://www.instagram.com/reel/C44MXDvA78g/', '_blank', 'noopener,noreferrer');
+    } else {
+      window.open(card.link, '_blank', 'noopener,noreferrer');
     }
   };
 
@@ -135,19 +140,19 @@ const FeaturesGrid = () => {
                   scale: 1.02
                 }}
                 whileTap={{ scale: 0.98 }}
-                className={`${card.id === 1 || card.id === 2 || card.id === 3 || card.id === 4 ? `
-                  relative overflow-hidden
-                ` : 'bg-zinc-900'} h-full
-                  p-8 rounded-xl cursor-pointer
+                className={`relative overflow-hidden h-full min-h-[320px]
+                  p-10 rounded-xl cursor-pointer
                   transition-all duration-300`}
               >
-                {(card.id === 1 || card.id === 2 || card.id === 3 || card.id === 4) && (
+                {(card.id === 1 || card.id === 2 || card.id === 3 || card.id === 4 || card.id === 5 || card.id === 6) && (
                   <>
                     <div className={`absolute inset-0 -z-10 bg-cover bg-center ${
                       card.id === 1 ? "bg-[url('/assets/portfolio-image.jpg')]" : 
-                      card.id === 2 ? "bg-[url('/assets/backtobusiness.jpg')]" :
+                      card.id === 2 ? "bg-[url('/assets/showtime.jpg')]" :
                       card.id === 3 ? "bg-[url('/assets/footballend.jpg')]" :
-                      "bg-[url('/assets/showtime.jpg')]"
+                      card.id === 4 ? "bg-[url('/assets/backtobusiness.jpg')]" :
+                      card.id === 5 ? "bg-[url('/assets/showtime.jpg')]" :
+                      "bg-[url('/assets/footballend.jpg')]"
                     }`} />
                     <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/90" />
                     <div className="absolute inset-0 border border-zinc-50/10 hover:border-zinc-50/20 rounded-xl transition-colors" />
@@ -155,17 +160,17 @@ const FeaturesGrid = () => {
                 )}
                 <div className={`space-y-4 relative z-10`}>
                   {card.title && (
-                    <h3 className="text-xl font-semibold text-[#EFF9F0]">
+                    <h3 className="text-2xl font-semibold text-[#EFF9F0]">
                       {card.title}
                     </h3>
                   )}
                   {card.subtitle && (
-                    <h2 className="text-4xl font-bold text-[#51BBFE]">
+                    <h2 className="text-5xl font-bold text-[#51BBFE]">
                       {card.subtitle}
                     </h2>
                   )}
                   {card.description && (
-                    <p className="text-[#EFF9F0]/80 text-sm">
+                    <p className="text-[#EFF9F0]/80 text-base">
                       {card.description}
                     </p>
                   )}

@@ -9,7 +9,7 @@ import FeaturesGrid from '../../components/features-grid';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import DarkStats from "../../components/dark-stats";
 import { useNavigate } from 'react-router-dom';
-import { Mail, Phone, Instagram } from 'lucide-react'; // Added imports
+import { Mail, Instagram } from 'lucide-react'; // Added imports
 
 const WordAnimation = ({ words, className = "" }) => {
   const wordsArray = typeof words === 'string' ? words.split(" ") : words;
@@ -260,7 +260,7 @@ export default function Landing() {
                 </AuroraText>
               </motion.div>
               <span className="text-[#EFF9F0]/80 text-2xl mt-2">
-                Sports Videography, using Sony Alpha Series cameras and glass.
+                Event Videography &amp; Sports Coverage, using Sony Alpha Series cameras and glass.
               </span>
             </motion.div>
           </motion.div>
@@ -333,23 +333,12 @@ export default function Landing() {
               </motion.a>
               
               <motion.a
-                href="tel:4047250528"
-                initial={{ opacity: 0, y: 10 }}
-                animate={contactInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.3 }}
-                className="flex items-center gap-4 text-xl text-[#EFF9F0]/90 hover:text-[#51BBFE] transition-colors"
-              >
-                <Phone size={24} />
-                <span>404-725-0528</span>
-              </motion.a>
-              
-              <motion.a
                 href="https://instagram.com/davidcamick"
                 target="_blank"
                 rel="noopener noreferrer"
                 initial={{ opacity: 0, y: 10 }}
                 animate={contactInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.4 }}
+                transition={{ delay: 0.3 }}
                 className="flex items-center gap-4 text-xl text-[#EFF9F0]/90 hover:text-[#51BBFE] transition-colors"
               >
                 <Instagram size={24} />

@@ -34,10 +34,10 @@ export function PortfolioCard() {
         <div className='flex grow flex-row items-end justify-between px-3 py-2'>
           <div>
             <MorphingDialogTitle className='text-zinc-50'>
-              Overtime Elite Finals
+              Vanderbilt @ Alabama
             </MorphingDialogTitle>
             <MorphingDialogSubtitle className='text-zinc-400'>
-              March, 2024
+              October, 2025
             </MorphingDialogSubtitle>
           </div>
           <button
@@ -63,10 +63,10 @@ export function PortfolioCard() {
           />
           <div className='p-6'>
             <MorphingDialogTitle className='text-2xl text-zinc-50'>
-            Overtime Elite Finals
+            Vanderbilt @ Alabama
             </MorphingDialogTitle>
             <MorphingDialogSubtitle className='text-zinc-400'>
-              March, 2024
+              October, 2025
             </MorphingDialogSubtitle>
             <MorphingDialogDescription
               disableLayoutAnimation
@@ -77,7 +77,7 @@ export function PortfolioCard() {
               }}
             >
               <p className='mt-2 text-zinc-500'>
-                This is me after shooting the last game of the Finals for Overtime Elite, a Professional Basketball league based in Atlanta, GA.
+                This is me on the sidelines doing fan experience videos for Alabama football in Bryant Denny Stadium in their 30-14 victory over Vanderbilt University on College Game Day.
               </p>
             </MorphingDialogDescription>
           </div>
