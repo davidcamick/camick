@@ -51,21 +51,21 @@ function DarkStats({ titleInView, transformY }) {
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 2, delay: 0.8 }}
           >
-            <StatCard endValue={1500000} label="Impressions" prefix="+" triggerAnimation={isInView} duration={4000} />
+            <StatCard endValue={3400000} label="Impressions" prefix="+" triggerAnimation={isInView} duration={4000} />
           </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 2, delay: 1.0 }}
           >
-            <StatCard endValue={75} label="Average Retention Rate" suffix="%" triggerAnimation={isInView} duration={4000} />
+            <StatCard endValue={80} label="Average Retention Rate" suffix="%" triggerAnimation={isInView} duration={4000} />
           </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 2, delay: 1.2 }}
           >
-            <StatCard endValue={150} label="Happy Clients" prefix="+" triggerAnimation={isInView} duration={4000} />
+            <StatCard endValue={300} label="Happy Clients" prefix="+" triggerAnimation={isInView} duration={4000} />
           </motion.div>
         </div>
       </div>
