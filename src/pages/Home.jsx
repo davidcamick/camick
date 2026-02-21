@@ -114,6 +114,16 @@ export default function Home() {
         }
       );
 
+      // Floating Logos
+      gsap.to('.arsenal-logo', {
+        y: -15,
+        duration: 2,
+        yoyo: true,
+        repeat: -1,
+        ease: 'sine.inOut',
+        stagger: 0.2
+      });
+
       // Work Section Parallax
       const workItems = gsap.utils.toArray('.work-item');
       workItems.forEach((item, i) => {
@@ -275,11 +285,12 @@ export default function Home() {
             </p>
           </div>
           <div className="aspect-[4/5] bg-zinc-900 rounded-2xl overflow-hidden relative group">
-            {/* Placeholder for a portrait or action shot */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-zinc-800 to-zinc-900" />
-            <div className="absolute inset-0 flex items-center justify-center text-zinc-700 font-medium tracking-widest">
-              PORTRAIT
-            </div>
+            <img 
+              src="/assets/other assets/hero-me.jpg" 
+              alt="David Camick Portrait" 
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-tr from-zinc-900/40 to-transparent" />
           </div>
         </div>
       </section>
@@ -288,56 +299,47 @@ export default function Home() {
       <Experience />
 
       {/* The Arsenal Section */}
-      <section className="arsenal-section py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-zinc-900">
-        <div className="arsenal-content grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-          <div className="order-2 md:order-1">
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tighter mb-6">
-              THE <span className="text-zinc-500">ARSENAL</span>
-            </h2>
-            <p className="text-zinc-400 text-lg leading-relaxed mb-12">
-              Advanced workflows in Adobe Premiere Pro, After Effects, and Blender for 3D integration.
-            </p>
-            
-            <div className="flex gap-6 items-center">
-              {/* Premiere Pro Logo */}
-              <div className="relative group">
-                <div className="w-16 h-16 bg-zinc-900 rounded-xl flex items-center justify-center border border-zinc-800 shadow-lg overflow-hidden hover:scale-110 transition-transform duration-300">
-                  <img src="/assets/logos/premiere.png" alt="Premiere Pro" className="w-full h-full object-contain p-2" />
-                </div>
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 px-3 py-2 bg-zinc-800 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap z-10">
-                  Industry-standard video editing and timeline assembly.
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-zinc-800"></div>
-                </div>
+      <section className="arsenal-section py-32 px-6 md:px-12 max-w-7xl mx-auto border-t border-zinc-900">
+        <div className="arsenal-content flex flex-col items-center text-center max-w-3xl mx-auto">
+          <h2 className="text-4xl md:text-6xl font-bold tracking-tighter mb-6">
+            THE <span className="text-zinc-500">ARSENAL</span>
+          </h2>
+          <p className="text-zinc-400 text-lg leading-relaxed mb-16">
+            Advanced workflows in Adobe Premiere Pro, After Effects, and Blender for 3D integration.
+          </p>
+          
+          <div className="flex gap-8 md:gap-12 items-center justify-center">
+            {/* Premiere Pro Logo */}
+            <div className="arsenal-logo relative group">
+              <div className="w-20 h-20 md:w-24 md:h-24 bg-zinc-900 rounded-2xl flex items-center justify-center border border-zinc-800 shadow-lg overflow-hidden hover:scale-110 transition-transform duration-300">
+                <img src="/assets/logos/premiere.png" alt="Premiere Pro" className="w-full h-full object-contain p-3 md:p-4" />
               </div>
-              
-              {/* After Effects Logo */}
-              <div className="relative group">
-                <div className="w-16 h-16 bg-zinc-900 rounded-xl flex items-center justify-center border border-zinc-800 shadow-lg overflow-hidden hover:scale-110 transition-transform duration-300">
-                  <img src="/assets/logos/aftereffects.png" alt="After Effects" className="w-full h-full object-contain p-2" />
-                </div>
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 px-3 py-2 bg-zinc-800 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap z-10">
-                  Advanced motion graphics, VFX, and compositing.
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-zinc-800"></div>
-                </div>
-              </div>
-              
-              {/* Blender Logo */}
-              <div className="relative group">
-                <div className="w-16 h-16 bg-zinc-900 rounded-xl flex items-center justify-center border border-zinc-800 shadow-lg overflow-hidden hover:scale-110 transition-transform duration-300">
-                  <img src="/assets/logos/blender.png" alt="Blender" className="w-full h-full object-contain p-2" />
-                </div>
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 px-3 py-2 bg-zinc-800 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap z-10">
-                  3D modeling, animation, and environment design.
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-zinc-800"></div>
-                </div>
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 px-4 py-2 bg-zinc-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap z-10">
+                Industry-standard video editing and timeline assembly.
+                <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-zinc-800"></div>
               </div>
             </div>
-          </div>
-          
-          <div className="order-1 md:order-2 aspect-[5/4] bg-zinc-900 rounded-2xl overflow-hidden relative group">
-            <div className="absolute inset-0 bg-gradient-to-tr from-zinc-800 to-zinc-900" />
-            <div className="absolute inset-0 flex items-center justify-center text-zinc-700 font-medium tracking-widest">
-              WORKSPACE
+            
+            {/* After Effects Logo */}
+            <div className="arsenal-logo relative group">
+              <div className="w-20 h-20 md:w-24 md:h-24 bg-zinc-900 rounded-2xl flex items-center justify-center border border-zinc-800 shadow-lg overflow-hidden hover:scale-110 transition-transform duration-300">
+                <img src="/assets/logos/aftereffects.png" alt="After Effects" className="w-full h-full object-contain p-3 md:p-4" />
+              </div>
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 px-4 py-2 bg-zinc-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap z-10">
+                Advanced motion graphics, VFX, and compositing.
+                <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-zinc-800"></div>
+              </div>
+            </div>
+            
+            {/* Blender Logo */}
+            <div className="arsenal-logo relative group">
+              <div className="w-20 h-20 md:w-24 md:h-24 bg-zinc-900 rounded-2xl flex items-center justify-center border border-zinc-800 shadow-lg overflow-hidden hover:scale-110 transition-transform duration-300">
+                <img src="/assets/logos/blender.png" alt="Blender" className="w-full h-full object-contain p-3 md:p-4" />
+              </div>
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 px-4 py-2 bg-zinc-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap z-10">
+                3D modeling, animation, and environment design.
+                <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-zinc-800"></div>
+              </div>
             </div>
           </div>
         </div>
