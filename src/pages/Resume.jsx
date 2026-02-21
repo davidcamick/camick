@@ -44,7 +44,7 @@ export default function Resume() {
 
         <div className="resume-anim w-full aspect-[1/1.4] md:aspect-[16/9] bg-zinc-900 rounded-2xl border border-zinc-800 overflow-hidden relative mb-12">
           <iframe 
-            src="/assets/resume.pdf" 
+            src="/assets/other assets/David Camick - Resume 2026 (Video).pdf" 
             className="w-full h-full"
             title="Resume"
           ></iframe>
@@ -52,7 +52,7 @@ export default function Resume() {
 
         <div className="resume-anim text-center">
           <a 
-            href="/assets/resume.pdf" 
+            href="/assets/other assets/David Camick - Resume 2026 (Video).pdf" 
             download
             className="inline-flex items-center gap-3 px-8 py-4 bg-white text-black rounded-full font-medium hover:scale-105 transition-transform duration-300"
           >

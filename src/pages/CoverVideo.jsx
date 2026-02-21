@@ -55,7 +55,7 @@ export default function CoverVideo() {
 
         <div className="video-container w-full aspect-video bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-800 shadow-2xl relative">
           <iframe 
-            src="https://player.vimeo.com/video/1050150111?h=1234567890&title=0&byline=0&portrait=0" 
+            src="https://player.vimeo.com/video/1068645245?h=3cbbac1d8f&title=0&byline=0&portrait=0" 
             className="absolute top-0 left-0 w-full h-full"
             frameBorder="0" 
             allow="autoplay; fullscreen; picture-in-picture" 

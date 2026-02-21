@@ -7,6 +7,37 @@ import Experience from '../components/experience';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const selectedWorkData = [
+  {
+    id: 1,
+    title: "Revenge. Alabama vs Vandy",
+    description: "Fan experience recap from the week 5 game against Vanderbuilt 2025. Delivered 8 hours after the final whistle.",
+    link: "https://drive.google.com/file/d/161jqiYb439pP4qnf8kUWEfzrjzxVbno6/view?usp=sharing",
+    image: "/assets/selected-work/Revenge.jpg"
+  },
+  {
+    id: 2,
+    title: "NEON - Beta Upsilon Chi",
+    description: "High energy party aftermovie delivered 4 hours after the event ended.",
+    link: "https://www.instagram.com/reel/DT313FcD16W/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+    image: "/assets/selected-work/NEON.png"
+  },
+  {
+    id: 3,
+    title: "Liam Mullins - Back to Business",
+    description: "Player Highlight made for Liam Mullins shot/edited by me.",
+    link: "https://www.instagram.com/reel/C6efITwoQpR/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+    image: "/assets/selected-work/Liam Mullins.png"
+  },
+  {
+    id: 4,
+    title: "Alabama Football Cinematic Recap 2025",
+    description: "Cinematic Recap for Alabama 2025. Sequence, Sound Design and Initial Color by Me.",
+    link: "https://drive.google.com/file/d/1JPU80gZaFEnmOituk-XxD1GGd_xtFuBe/view?usp=sharing",
+    image: "/assets/selected-work/Bama Cinematic Recap.png"
+  }
+];
+
 export default function Home() {
   const navigate = useNavigate();
   const containerRef = useRef(null);
@@ -350,19 +381,30 @@ export default function Home() {
         <h2 className="text-4xl md:text-6xl font-bold tracking-tighter mb-16">SELECTED WORK</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {[1, 2, 3, 4].map((item) => (
-            <div key={item} className="work-item group cursor-pointer">
+          {selectedWorkData.map((item) => (
+            <a 
+              key={item.id} 
+              href={item.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="work-item group cursor-pointer block"
+            >
               <div className="aspect-video bg-zinc-900 rounded-xl overflow-hidden relative mb-4">
-                <div className="absolute inset-0 bg-zinc-800 transition-transform duration-700 group-hover:scale-105" />
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-black/40 backdrop-blur-sm">
+                <img 
+                  src={item.image} 
+                  alt={item.title} 
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-500" />
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 backdrop-blur-sm">
                   <div className="bg-white text-black rounded-full p-4 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                     <Play size={24} className="fill-black" />
                   </div>
                 </div>
               </div>
-              <h3 className="text-xl font-medium">Project Title {item}</h3>
-              <p className="text-zinc-500">Sports / Event</p>
-            </div>
+              <h3 className="text-xl font-medium mb-2">{item.title}</h3>
+              <p className="text-zinc-400 text-sm leading-relaxed">{item.description}</p>
+            </a>
           ))}
         </div>
       </section>
