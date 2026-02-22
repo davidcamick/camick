@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'r
 import Home from './pages/Home';
 import CoverVideo from './pages/CoverVideo';
 import Resume from './pages/Resume';
+import Events from './pages/Events';
 import LinksMB from './pages/mobile/linksMB';
 import Contact from './pages/cross-platform/contact';
 
@@ -28,6 +29,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/video" element={<CoverVideo />} />
         <Route path="/resume" element={<Resume />} />
+        <Route path="/events" element={<Events />} />
         <Route path="/sfx" element={<Navigate to="/" replace />} />
         <Route path="/links" element={<LinksMB />} />
         <Route path="/contact" element={<Contact />} />

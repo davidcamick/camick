@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
-import { ArrowLeft, Mail, Phone } from 'lucide-react';
+import { ArrowLeft, Mail, Phone, Instagram } from 'lucide-react';
 
 export default function Contact() {
   const navigate = useNavigate();
@@ -49,10 +49,25 @@ export default function Contact() {
               <Phone className="text-zinc-400" size={24} />
               <h2 className="text-2xl font-bold tracking-tight">Phone</h2>
             </div>
-            <a href="tel:+14047717577" className="text-lg text-zinc-400 hover:text-white transition-colors">
-              (404) 771-7577
+            <a href="tel:+14047250528" className="text-lg text-zinc-400 hover:text-white transition-colors">
+              (404) 725-0528
             </a>
           </div>
+
+          <a
+            href="https://instagram.com/davidcamick"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="contact-item block bg-zinc-900/50 backdrop-blur-sm rounded-2xl p-8 border border-zinc-800 hover:border-zinc-700 transition-colors"
+          >
+            <div className="flex items-center gap-4 mb-4">
+              <Instagram className="text-zinc-400" size={24} />
+              <h2 className="text-2xl font-bold tracking-tight">Instagram</h2>
+            </div>
+            <span className="text-lg text-zinc-400 hover:text-white transition-colors">
+              @davidcamick
+            </span>
+          </a>
         </div>
       </div>
     </main>
