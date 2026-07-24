@@ -25,7 +25,6 @@ export const BEATS = {
   body: 1280,
   ctaOne: 1400,
   ctaTwo: 1470,
-  slate: 1560,
   release: 1900,
 };
 

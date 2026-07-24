@@ -64,10 +64,10 @@ export default function CoverVideo() {
               <span className="t-label">OPEN ON VIMEO</span>
             </a>
             <Link
-              to="/events"
+              to="/contact"
               className="flex items-center justify-center gap-2.5 rounded-hud bg-cue px-6 py-4 text-bg transition-colors hover:bg-ink"
             >
-              <span className="t-label">BOOK AN EVENT</span>
+              <span className="t-label">GET IN CONTACT</span>
               <ArrowRight size={15} />
             </Link>
           </div>

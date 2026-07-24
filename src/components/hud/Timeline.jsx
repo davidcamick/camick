@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { formatTimecode, useTimeline } from './useTimeline';
 
 /**
@@ -15,6 +15,16 @@ export default function Timeline({ clips }) {
   const trackRef = useRef(null);
   const [scrubbing, setScrubbing] = useState(false);
   const movedRef = useRef(false);
+
+  /* Held back until the visitor actually starts scrolling, so the opening
+     frame is just the hero. */
+  const [revealed, setRevealed] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setRevealed(window.scrollY > 48);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const fractionFromEvent = useCallback((clientX) => {
     const rect = trackRef.current?.getBoundingClientRect();
@@ -57,7 +67,12 @@ export default function Timeline({ clips }) {
 
   return (
     <div
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-line/60 bg-bg/85 backdrop-blur-xl"
+      aria-hidden={!revealed}
+      className={`fixed inset-x-0 bottom-0 z-50 border-t border-line/60 bg-bg/85 backdrop-blur-xl transition-[transform,opacity] duration-500 ease-hud ${
+        revealed
+          ? 'translate-y-0 opacity-100'
+          : 'pointer-events-none translate-y-full opacity-0'
+      }`}
       style={{ paddingBottom: 'var(--sa-bottom)' }}
     >
       {/* ── Info row ── */}

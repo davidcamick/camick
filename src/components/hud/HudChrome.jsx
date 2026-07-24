@@ -120,14 +120,14 @@ export default function HudChrome({ label = 'INDEX' }) {
             : 'pointer-events-none opacity-0'
         }`}
       >
-        <nav className="flex h-full flex-col justify-center px-gutter pt-14 pb-10">
+        <nav className="mx-auto flex h-full w-full max-w-4xl flex-col justify-center overflow-y-auto px-gutter pt-14 pb-10">
           <ul>
             {ROUTES.map((route, i) => (
               <li key={route.to} className="border-b border-line/40 last:border-0">
                 <button
                   type="button"
                   onClick={() => go(route.to)}
-                  className="group flex w-full items-center gap-4 py-4 text-left transition-transform duration-500 ease-hud md:py-5"
+                  className="group flex w-full items-center gap-4 py-3.5 text-left transition-transform duration-500 ease-hud md:py-4"
                   style={{
                     transform: open ? 'translateY(0)' : 'translateY(18px)',
                     opacity: open ? 1 : 0,
@@ -138,7 +138,13 @@ export default function HudChrome({ label = 'INDEX' }) {
                   <span className="t-mono text-[11px] text-cue/70">
                     {String(i + 1).padStart(3, '0')}
                   </span>
-                  <span className="t-display flex-1 text-[13vw] text-ink transition-colors group-hover:text-cue md:text-[6vw]">
+                  {/* Sized against height as well as width, and hard-capped.
+                      A pure vw size blows past the viewport on a wide desktop
+                      and pushes the last route off the bottom of the screen. */}
+                  <span
+                    className="t-display flex-1 text-ink transition-colors group-hover:text-cue"
+                    style={{ fontSize: 'clamp(2.25rem, min(12vw, 9vh), 5rem)' }}
+                  >
                     {route.label}
                   </span>
                   <span className="t-label hidden text-muted md:block">

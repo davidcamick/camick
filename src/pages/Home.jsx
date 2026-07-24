@@ -97,8 +97,6 @@ let titlesArmed =
   !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 export default function Home() {
-  const [liveTime, setLiveTime] = useState('');
-
   // Pure read: double-invoking this returns the same answer.
   const [intro] = useState(() => titlesArmed);
 
@@ -110,22 +108,6 @@ export default function Home() {
   /* Helpers so every beat hangs off the one clock in TitleSequence */
   const beat = () => (intro ? 'anim-fade' : '');
   const delay = (ms) => (intro ? { animationDelay: `${ms}ms` } : undefined);
-
-  /* Small liveness touch on the slate — a real clock, not a prop */
-  useEffect(() => {
-    const tick = () =>
-      setLiveTime(
-        new Date().toLocaleTimeString('en-US', {
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: false,
-          timeZone: 'America/Chicago',
-        })
-      );
-    tick();
-    const id = setInterval(tick, 30000);
-    return () => clearInterval(id);
-  }, []);
 
   return (
     <PageShell label="INDEX" clips={CLIPS_NAV}>
@@ -216,43 +198,17 @@ export default function Home() {
                 <Play size={15} className="fill-bg" />
               </Link>
               <Link
-                to="/events"
+                to="/contact"
                 className={`group flex items-center justify-between gap-3 rounded-hud border border-line/70 px-5 py-4 transition-colors hover:border-cue hover:text-cue sm:justify-start ${beat(BEATS.ctaTwo)}`}
                 style={delay(BEATS.ctaTwo)}
               >
-                <span className="t-label">BOOK AN EVENT</span>
+                <span className="t-label">GET IN CONTACT</span>
                 <ArrowRight
                   size={15}
                   className="transition-transform duration-300 group-hover:translate-x-1"
                 />
               </Link>
             </div>
-
-            {/* Slate strip — fields fill in one at a time, like a slate
-                being marked up before the take. */}
-            <dl className="mt-9 grid max-w-2xl grid-cols-2 gap-px overflow-hidden rounded-hud border border-line/50 bg-line/40 sm:grid-cols-4">
-              {[
-                ['ROLL', 'A026'],
-                ['BASE', CONTACT.base],
-                ['LOCAL', liveTime || '--:--'],
-                ['STATUS', 'AVAILABLE'],
-              ].map(([k, v], i) => (
-                <div
-                  key={k}
-                  className={`bg-bg/85 px-3 py-2.5 ${beat(BEATS.slate + i * 70)}`}
-                  style={delay(BEATS.slate + i * 70)}
-                >
-                  <dt className="t-label text-muted/70">{k}</dt>
-                  <dd
-                    className={`t-mono mt-1.5 text-[11px] ${
-                      i === 3 ? 'text-cue' : 'text-ink'
-                    }`}
-                  >
-                    {v}
-                  </dd>
-                </div>
-              ))}
-            </dl>
           </div>
         </div>
 
