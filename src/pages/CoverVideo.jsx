@@ -1,70 +1,78 @@
-import React, { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import gsap from 'gsap';
-import { ArrowLeft } from 'lucide-react';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, ExternalLink } from 'lucide-react';
+
+import PageShell from '../components/hud/PageShell';
+import LowerThird from '../components/hud/LowerThird';
+import { CONTACT } from '../data/site';
 
 export default function CoverVideo() {
-  const navigate = useNavigate();
-  const containerRef = useRef(null);
-
-  useEffect(() => {
-    document.title = 'Cover Video | Camick Portfolio';
-    
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline();
-      
-      tl.fromTo('.header-word',
-        { y: 50, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: 'power3.out' }
-      )
-      .fromTo('.video-container',
-        { scale: 0.9, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 1, ease: 'power3.out' },
-        "-=0.4"
-      );
-    }, containerRef);
-
-    return () => {
-      ctx.revert();
-      document.title = 'Camick Portfolio';
-    };
-  }, []);
-
   return (
-    <main ref={containerRef} className="bg-[#0a0a0a] min-h-screen text-zinc-50 px-6 py-24 relative overflow-x-hidden flex flex-col items-center justify-center">
-      
-      <button
-        onClick={() => navigate(-1)}
-        className="fixed top-8 left-6 md:left-12 z-50 flex items-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full backdrop-blur-md transition-all duration-300"
-      >
-        <ArrowLeft size={18} />
-        <span className="font-medium tracking-wide text-sm">BACK</span>
-      </button>
-      
-      <div className="max-w-5xl w-full relative z-10">
-        
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tighter flex flex-wrap justify-center gap-x-4 gap-y-2">
-            {['2025', 'COVER', 'VIDEO'].map((word, i) => (
-              <span key={i} className={`header-word inline-block ${word === 'VIDEO' ? 'text-zinc-500' : ''}`}>
-                {word}
-              </span>
-            ))}
-          </h1>
-        </div>
+    <PageShell label="PLAYBACK" title="2025 Cover Video">
+      <section className="px-gutter py-12 sm:py-16">
+        <div className="mx-auto max-w-5xl">
+          <LowerThird
+            index={1}
+            track="PLAYBACK / MASTER"
+            title="2025 cover "
+            accent="video"
+            sub="The year in one cut — sports, events and everything in between."
+          />
 
-        <div className="video-container w-full aspect-video bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-800 shadow-2xl relative">
-          <iframe 
-            src="https://player.vimeo.com/video/1068645245?h=3cbbac1d8f&title=0&byline=0&portrait=0" 
-            className="absolute top-0 left-0 w-full h-full"
-            frameBorder="0" 
-            allow="autoplay; fullscreen; picture-in-picture" 
-            allowFullScreen
-            title="Cover Video"
-          ></iframe>
-        </div>
+          {/* Player, framed like a monitor */}
+          <div className="hud-brackets mt-10">
+            <div className="rounded-hud border border-line/50 bg-panel/40 p-2 sm:p-3">
+              {/* Monitor header */}
+              <div className="mb-2 flex items-center justify-between px-1">
+                <div className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-rec anim-rec" />
+                  <span className="t-label text-muted">SRC / VIMEO</span>
+                </div>
+                <span className="t-mono text-[10px] text-muted">1920×1080 · 24P</span>
+              </div>
 
-      </div>
-    </main>
+              <div className="relative aspect-video overflow-hidden rounded-hud bg-bg">
+                <iframe
+                  src="https://player.vimeo.com/video/1068645245?h=3cbbac1d8f&title=0&byline=0&portrait=0"
+                  className="absolute inset-0 h-full w-full"
+                  frameBorder="0"
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  allowFullScreen
+                  title="David Camick — 2025 Cover Video"
+                />
+              </div>
+
+              {/* Transport strip */}
+              <div className="mt-2 flex items-center justify-between px-1">
+                <span className="t-mono text-[10px] text-cue">00:00:00:00</span>
+                <div aria-hidden className="mx-3 h-[3px] flex-1 bg-line/40">
+                  <span className="block h-full w-1/3 bg-cue/50" />
+                </div>
+                <span className="t-mono text-[10px] text-muted">MASTER</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-8 flex flex-col gap-2.5 sm:flex-row">
+            <a
+              href={CONTACT.reel}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2.5 rounded-hud border border-line/70 px-6 py-4 transition-colors hover:border-cue hover:text-cue"
+            >
+              <ExternalLink size={15} />
+              <span className="t-label">OPEN ON VIMEO</span>
+            </a>
+            <Link
+              to="/events"
+              className="flex items-center justify-center gap-2.5 rounded-hud bg-cue px-6 py-4 text-bg transition-colors hover:bg-ink"
+            >
+              <span className="t-label">BOOK AN EVENT</span>
+              <ArrowRight size={15} />
+            </Link>
+          </div>
+        </div>
+      </section>
+    </PageShell>
   );
 }

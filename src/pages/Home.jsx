@@ -1,447 +1,509 @@
-import React, { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Mail, Instagram, ArrowRight, Play, FileText } from 'lucide-react';
-import Experience from '../components/experience';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, ChevronDown, Mail, Play } from 'lucide-react';
 
-gsap.registerPlugin(ScrollTrigger);
+import PageShell from '../components/hud/PageShell';
+import AmbientVideo from '../components/hud/AmbientVideo';
+import TitleSequence, { BEATS } from '../components/hud/TitleSequence';
+import LowerThird from '../components/hud/LowerThird';
+import ClipCard from '../components/hud/ClipCard';
+import StatBug from '../components/hud/StatBug';
+import Ticker from '../components/hud/Ticker';
+import { useInView } from '../components/hud/useInView';
+import {
+  CLIENTS,
+  CLIPS,
+  CONTACT,
+  KIT,
+  STATS,
+  TICKER,
+  TRACKS,
+} from '../data/site';
 
-const selectedWorkData = [
-  {
-    id: 1,
-    title: "Revenge. Alabama vs Vandy",
-    description: "Fan experience recap from the week 5 game against Vanderbuilt 2025. Delivered 8 hours after the final whistle.",
-    link: "https://drive.google.com/file/d/161jqiYb439pP4qnf8kUWEfzrjzxVbno6/view?usp=sharing",
-    image: "/assets/selected-work/Revenge.jpg"
-  },
-  {
-    id: 2,
-    title: "NEON - Beta Upsilon Chi",
-    description: "High energy party aftermovie delivered 4 hours after the event ended.",
-    link: "https://www.instagram.com/reel/DT313FcD16W/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
-    image: "/assets/selected-work/NEON.png"
-  },
-  {
-    id: 3,
-    title: "Liam Mullins - Back to Business",
-    description: "Player Highlight made for Liam Mullins shot/edited by me.",
-    link: "https://www.instagram.com/reel/C6efITwoQpR/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
-    image: "/assets/selected-work/Liam Mullins.png"
-  },
-  {
-    id: 4,
-    title: "Alabama Football Cinematic Recap 2025",
-    description: "Cinematic Recap for Alabama 2025. Sequence, Sound Design and Initial Color by Me.",
-    link: "https://drive.google.com/file/d/1JPU80gZaFEnmOituk-XxD1GGd_xtFuBe/view?usp=sharing",
-    image: "/assets/selected-work/Bama Cinematic Recap.png"
-  }
+const CLIPS_NAV = [
+  { id: 'slate', label: 'SLATE' },
+  { id: 'stats', label: 'NUMBERS' },
+  { id: 'profile', label: 'PROFILE' },
+  { id: 'work', label: 'SELECTED WORK' },
+  { id: 'roster', label: 'CLIENTS' },
+  { id: 'kit', label: 'THE KIT' },
+  { id: 'wrap', label: 'BOOK IT' },
 ];
 
-export default function Home() {
-  const navigate = useNavigate();
-  const containerRef = useRef(null);
-  const heroRef = useRef(null);
-  const aboutRef = useRef(null);
-  const workRef = useRef(null);
-  const contactRef = useRef(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Hero Animation
-      const tl = gsap.timeline();
-      
-      tl.fromTo('.hero-text-1', 
-        { y: 100, opacity: 0 }, 
-        { y: 0, opacity: 1, duration: 1.2, ease: 'power4.out', delay: 0.2 }
-      )
-      .fromTo('.hero-text-2', 
-        { y: 100, opacity: 0 }, 
-        { y: 0, opacity: 1, duration: 1.2, ease: 'power4.out' },
-        "-=1"
-      )
-      .fromTo('.hero-sub',
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1, ease: 'power3.out' },
-        "-=0.8"
-      )
-      .fromTo('.hero-btn',
-        { scale: 0.9, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 0.8, ease: 'back.out(1.7)' },
-        "-=0.6"
-      );
-
-      // Scroll Animations
-      // Stats Section
-      gsap.fromTo('.stat-item',
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          stagger: 0.2,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: '.stats-section',
-            start: 'top 85%',
-          }
-        }
-      );
-
-      // Number counting animation
-      const statNumbers = gsap.utils.toArray('.stat-number');
-      statNumbers.forEach((el) => {
-        const targetValue = parseFloat(el.getAttribute('data-value'));
-        const suffix = el.getAttribute('data-suffix') || '';
-        const isFloat = targetValue % 1 !== 0;
-        
-        gsap.fromTo(el, 
-          { innerHTML: 0 },
-          {
-            innerHTML: targetValue,
-            duration: 2,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: '.stats-section',
-              start: 'top 85%',
-            },
-            onUpdate: function() {
-              const val = Number(this.targets()[0].innerHTML);
-              el.innerHTML = (isFloat ? val.toFixed(1) : Math.round(val)) + suffix;
-            }
-          }
-        );
-      });
-
-      // About Section
-      gsap.fromTo('.about-content',
-        { y: 100, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1.5,
-          ease: 'power4.out',
-          scrollTrigger: {
-            trigger: aboutRef.current,
-            start: 'top 75%',
-            end: 'top 25%',
-            scrub: 1,
-          }
-        }
-      );
-
-      // Arsenal Section
-      gsap.fromTo('.arsenal-content',
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1.2,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: '.arsenal-section',
-            start: 'top 80%',
-          }
-        }
-      );
-
-      // Floating Logos
-      gsap.to('.arsenal-logo', {
-        y: -15,
-        duration: 2,
-        yoyo: true,
-        repeat: -1,
-        ease: 'sine.inOut',
-        stagger: 0.2
-      });
-
-      // Work Section Parallax
-      const workItems = gsap.utils.toArray('.work-item');
-      workItems.forEach((item, i) => {
-        gsap.fromTo(item,
-          { y: 100, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 1,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: item,
-              start: 'top 85%',
-              toggleActions: 'play none none reverse'
-            }
-          }
-        );
-      });
-
-      // Contact Section
-      gsap.fromTo('.contact-content',
-        { scale: 0.95, opacity: 0 },
-        {
-          scale: 1,
-          opacity: 1,
-          duration: 1.2,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: contactRef.current,
-            start: 'top 80%',
-          }
-        }
-      );
-
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, []);
-
-  const scrollTo = (ref) => {
-    ref.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+/* ── Work laid out as two video tracks ─────────────────────── */
+function Track({ track, clips }) {
+  const [ref, inView] = useInView({ threshold: 0.05 });
 
   return (
-    <main ref={containerRef} className="bg-[#0a0a0a] text-zinc-50 min-h-screen selection:bg-white/20 font-sans overflow-x-hidden">
-      
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 w-full z-50 px-6 py-6 mix-blend-difference">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <span className="text-xl font-medium tracking-tighter">CAMICK</span>
-          <div className="hidden md:flex gap-8 text-sm font-medium tracking-wide">
-            <button onClick={() => scrollTo(aboutRef)} className="hover:opacity-60 transition-opacity">ABOUT</button>
-            <button onClick={() => scrollTo(workRef)} className="hover:opacity-60 transition-opacity">WORK</button>
-            <button onClick={() => navigate('/resume')} className="hover:opacity-60 transition-opacity">RESUME</button>
-            <button onClick={() => scrollTo(contactRef)} className="hover:opacity-60 transition-opacity">CONTACT</button>
-          </div>
+    <div ref={ref} className="mt-12 first:mt-0">
+      {/* Track head */}
+      <div className="mb-4 flex items-end justify-between gap-4 border-b border-line/50 pb-3">
+        <div className="flex items-baseline gap-3">
+          <span className="t-mono rounded-hud border border-cue/50 px-2 py-1 text-[11px] text-cue">
+            {track.id}
+          </span>
+          <h3 className="t-display text-3xl sm:text-4xl">{track.label}</h3>
         </div>
-      </nav>
+        <p className="hidden text-right text-xs text-muted sm:block">
+          {track.blurb}
+        </p>
+      </div>
 
-      {/* Hero Section */}
-      <section ref={heroRef} className="relative h-screen flex flex-col justify-center px-6 md:px-12">
-        <div className="z-10 max-w-7xl mx-auto w-full">
-          <div className="overflow-hidden">
-            <h1 className="hero-text-1 text-[12vw] md:text-[8vw] leading-[0.85] font-bold tracking-tighter">
-              DAVID
-            </h1>
-          </div>
-          <div className="overflow-hidden">
-            <h1 className="hero-text-2 text-[12vw] md:text-[8vw] leading-[0.85] font-bold tracking-tighter text-zinc-500">
-              CAMICK
-            </h1>
-          </div>
-          
-          <div className="mt-12 max-w-xl">
-            <p className="hero-sub text-lg md:text-xl text-zinc-400 font-light leading-relaxed">
-              Cinematic Event Videography & Sports Coverage. 
-              Capturing high-impact moments with precision and intent.
-            </p>
-            
-            <div className="flex flex-wrap gap-4 mt-8">
-              <button 
-                onClick={() => navigate('/video')}
-                className="hero-btn group flex items-center gap-3 bg-white text-black px-6 py-3 rounded-full font-medium hover:scale-105 transition-transform duration-300"
-              >
-                <Play size={18} className="fill-black" />
-                <span>Watch 2025 Reel</span>
-              </button>
-              <button 
-                onClick={() => navigate('/resume')}
-                className="hero-btn group flex items-center gap-3 bg-zinc-900 border border-zinc-800 text-white px-6 py-3 rounded-full font-medium hover:bg-zinc-800 transition-colors duration-300"
-              >
-                <FileText size={18} />
-                <span>View Resume</span>
-              </button>
-            </div>
-          </div>
-        </div>
+      {/* Rail: the visual "clips on a track" summary */}
+      <div aria-hidden className="mb-5 flex h-1.5 gap-[3px]">
+        {clips.map((clip, i) => (
+          <span
+            key={clip.id}
+            className="flex-1 origin-left bg-cue/40 transition-transform duration-700 ease-hud"
+            style={{
+              transform: inView ? 'scaleX(1)' : 'scaleX(0)',
+              transitionDelay: `${i * 120}ms`,
+            }}
+          />
+        ))}
+      </div>
 
-        {/* Background Video/Texture */}
-        <div className="absolute inset-0 z-0 opacity-40 pointer-events-none overflow-hidden">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full h-full object-cover scale-105"
+      {/* Cards — a swipeable strip on a phone, a grid on desktop */}
+      <div
+        className="-mx-[var(--hud-gutter)] flex snap-x snap-mandatory gap-3 overflow-x-auto px-gutter pb-2 md:mx-0 md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0"
+        style={{
+          overscrollBehaviorX: 'contain',
+          scrollbarWidth: 'none',
+          /* Without this the snap port ignores padding-left and the browser
+             immediately scrolls the first card flush to the screen edge. */
+          scrollPaddingLeft: 'var(--hud-gutter)',
+        }}
+      >
+        {clips.map((clip, i) => (
+          <div
+            key={clip.id}
+            className="w-[78vw] shrink-0 snap-start sm:w-[60vw] md:w-auto md:shrink"
           >
-            <source src="/assets/hero-video.mp4" type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/60 to-transparent" />
-          <div className="absolute inset-0 bg-black/20" /> {/* Extra darkening layer for text readability */}
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="stats-section py-24 px-6 md:px-12 bg-zinc-950 border-y border-zinc-900">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 divide-y md:divide-y-0 md:divide-x divide-zinc-800">
-            <div className="stat-item flex flex-col items-center text-center pt-8 md:pt-0">
-              <h3 className="text-5xl md:text-7xl font-bold tracking-tighter text-white mb-4">
-                <span className="stat-number" data-value="2.7" data-suffix="m+">0</span>
-              </h3>
-              <p className="text-zinc-400 text-lg font-medium tracking-wide uppercase">Impressions</p>
-            </div>
-            <div className="stat-item flex flex-col items-center text-center pt-8 md:pt-0">
-              <h3 className="text-5xl md:text-7xl font-bold tracking-tighter text-white mb-4">
-                <span className="stat-number" data-value="80" data-suffix="%">0</span>
-              </h3>
-              <p className="text-zinc-400 text-lg font-medium tracking-wide uppercase">Avg Retention Rate</p>
-            </div>
-            <div className="stat-item flex flex-col items-center text-center pt-8 md:pt-0">
-              <h3 className="text-5xl md:text-7xl font-bold tracking-tighter text-white mb-4">
-                <span className="stat-number" data-value="8" data-suffix="hr">0</span>
-              </h3>
-              <p className="text-zinc-400 text-lg font-medium tracking-wide uppercase">Avg Turnaround</p>
-            </div>
+            <ClipCard clip={clip} index={i} />
           </div>
-        </div>
-      </section>
+        ))}
+      </div>
+    </div>
+  );
+}
 
-      {/* About Section */}
-      <section ref={aboutRef} className="py-32 px-6 md:px-12 max-w-7xl mx-auto">
-        <div className="about-content grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-          <div>
-            <h2 className="text-4xl md:text-6xl font-bold tracking-tighter mb-8">
-              HIGH IMPACT <br/>
-              <span className="text-zinc-500">VISUALS.</span>
-            </h2>
-            <p className="text-zinc-400 text-lg leading-relaxed mb-6">
-              I specialize in creating dynamic, cinematic content that elevates brands and athletes. 
-              Using Sony Alpha Series cameras and premium glass, every frame is engineered for maximum impact.
-            </p>
-            <p className="text-zinc-400 text-lg leading-relaxed mb-6">
-              Currently, I work with <span className="text-white font-medium">Alabama Football</span>, producing high-energy gameday videos, recaps, and player highlights that capture the intensity of the sport.
-            </p>
-            <p className="text-zinc-400 text-lg leading-relaxed">
-              From fast-paced sports coverage to elegant event videography, my approach is rooted in 
-              storytelling through motion and light.
-            </p>
-          </div>
-          <div className="aspect-[4/5] bg-zinc-900 rounded-2xl overflow-hidden relative group">
-            <img 
-              src="/assets/other assets/hero-me.jpg" 
-              alt="David Camick Portrait" 
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+/* Armed once when the module is evaluated, so the titles play on a fresh page
+   load but not every time someone navigates back to the index. Refresh replays.
+   Deliberately NOT spent inside the state initializer — StrictMode invokes
+   initializers twice, and a mutating one would consume the flag on the first
+   call and hand `false` back on the second, killing the sequence outright. */
+let titlesArmed =
+  typeof window !== 'undefined' &&
+  !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+export default function Home() {
+  const [liveTime, setLiveTime] = useState('');
+
+  // Pure read: double-invoking this returns the same answer.
+  const [intro] = useState(() => titlesArmed);
+
+  // Spend it after mount, where a double-run is harmless.
+  useEffect(() => {
+    titlesArmed = false;
+  }, []);
+
+  /* Helpers so every beat hangs off the one clock in TitleSequence */
+  const beat = () => (intro ? 'anim-fade' : '');
+  const delay = (ms) => (intro ? { animationDelay: `${ms}ms` } : undefined);
+
+  /* Small liveness touch on the slate — a real clock, not a prop */
+  useEffect(() => {
+    const tick = () =>
+      setLiveTime(
+        new Date().toLocaleTimeString('en-US', {
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false,
+          timeZone: 'America/Chicago',
+        })
+      );
+    tick();
+    const id = setInterval(tick, 30000);
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <PageShell label="INDEX" clips={CLIPS_NAV}>
+      {/* ══ 001 SLATE ══════════════════════════════════════ */}
+      <section
+        id="slate"
+        className="fx-vignette relative flex min-h-[92dvh] flex-col justify-end overflow-hidden"
+      >
+        {/* Plate. Wrapped so the settle can push in and come up from black
+            without fighting AmbientVideo's own object-cover scaling. */}
+        <div
+          className="absolute inset-0"
+          style={
+            intro
+              ? { animation: `intro-settle 2200ms cubic-bezier(0.16,1,0.3,1) ${BEATS.plate}ms both` }
+              : undefined
+          }
+        >
+          <AmbientVideo
+            mobileSrc="/assets/hero-mobile.mp4"
+            desktopSrc="/assets/hero-desktop.mp4"
+            poster="/assets/hero-poster.jpg"
+            opacity={0.55}
+          />
+        </div>
+
+        {/* Dark where the type sits, open at the top so the footage reads */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-bg via-bg/65 to-bg/25" />
+
+        {intro && <TitleSequence />}
+
+        <div className="relative z-10 px-gutter pb-10 pt-24">
+          <div className="mx-auto max-w-6xl">
+            <div className={beat(BEATS.slug)} style={delay(BEATS.slug)}>
+              <div className="flex items-center gap-3">
+                <span className="h-1.5 w-1.5 rounded-full bg-rec anim-rec" />
+                <span className="t-label text-cue">001 / SLATE</span>
+              </div>
+            </div>
+
+            <h1 className="mt-5">
+              <span className="block overflow-hidden">
+                <span
+                  className={`t-display block text-[18vw] md:text-[11vw] ${intro ? 'anim-rise' : ''}`}
+                  style={delay(BEATS.lineOne)}
+                >
+                  David
+                </span>
+              </span>
+              <span className="block overflow-hidden">
+                <span
+                  className={`t-display block text-[18vw] text-cue md:text-[11vw] ${intro ? 'anim-rise' : ''}`}
+                  style={delay(BEATS.lineTwo)}
+                >
+                  Camick
+                </span>
+              </span>
+            </h1>
+
+            {/* Cue rule drawn under the name */}
+            <span
+              aria-hidden
+              className="mt-5 block h-px w-full max-w-md origin-left bg-cue/60"
+              style={
+                intro
+                  ? { animation: `cue-sweep 900ms cubic-bezier(0.16,1,0.3,1) ${BEATS.cue}ms both` }
+                  : { opacity: 0.4 }
+              }
             />
-            <div className="absolute inset-0 bg-gradient-to-tr from-zinc-900/40 to-transparent" />
-          </div>
-        </div>
-      </section>
 
-      {/* Interactive Experience/Clients Section */}
-      <Experience />
-
-      {/* The Arsenal Section */}
-      <section className="arsenal-section py-32 px-6 md:px-12 max-w-7xl mx-auto border-t border-zinc-900">
-        <div className="arsenal-content flex flex-col items-center text-center max-w-3xl mx-auto">
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tighter mb-6">
-            THE <span className="text-zinc-500">ARSENAL</span>
-          </h2>
-          <p className="text-zinc-400 text-lg leading-relaxed mb-16">
-            Advanced workflows in Adobe Premiere Pro, After Effects, and Blender for 3D integration.
-          </p>
-          
-          <div className="flex gap-8 md:gap-12 items-center justify-center">
-            {/* Premiere Pro Logo */}
-            <div className="arsenal-logo relative group">
-              <div className="w-20 h-20 md:w-24 md:h-24 bg-zinc-900 rounded-2xl flex items-center justify-center border border-zinc-800 shadow-lg overflow-hidden hover:scale-110 transition-transform duration-300">
-                <img src="/assets/logos/premiere.png" alt="Premiere Pro" className="w-full h-full object-contain p-3 md:p-4" />
-              </div>
-              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 px-4 py-2 bg-zinc-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap z-10">
-                Industry-standard video editing and timeline assembly.
-                <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-zinc-800"></div>
-              </div>
-            </div>
-            
-            {/* After Effects Logo */}
-            <div className="arsenal-logo relative group">
-              <div className="w-20 h-20 md:w-24 md:h-24 bg-zinc-900 rounded-2xl flex items-center justify-center border border-zinc-800 shadow-lg overflow-hidden hover:scale-110 transition-transform duration-300">
-                <img src="/assets/logos/aftereffects.png" alt="After Effects" className="w-full h-full object-contain p-3 md:p-4" />
-              </div>
-              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 px-4 py-2 bg-zinc-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap z-10">
-                Advanced motion graphics, VFX, and compositing.
-                <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-zinc-800"></div>
-              </div>
-            </div>
-            
-            {/* Blender Logo */}
-            <div className="arsenal-logo relative group">
-              <div className="w-20 h-20 md:w-24 md:h-24 bg-zinc-900 rounded-2xl flex items-center justify-center border border-zinc-800 shadow-lg overflow-hidden hover:scale-110 transition-transform duration-300">
-                <img src="/assets/logos/blender.png" alt="Blender" className="w-full h-full object-contain p-3 md:p-4" />
-              </div>
-              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 px-4 py-2 bg-zinc-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap z-10">
-                3D modeling, animation, and environment design.
-                <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-zinc-800"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Work Section */}
-      <section ref={workRef} className="py-32 px-6 md:px-12 max-w-7xl mx-auto">
-        <h2 className="text-4xl md:text-6xl font-bold tracking-tighter mb-16">SELECTED WORK</h2>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {selectedWorkData.map((item) => (
-            <a 
-              key={item.id} 
-              href={item.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="work-item group cursor-pointer block"
+            <p
+              className={`mt-6 max-w-md text-balance text-sm leading-relaxed text-ink/80 sm:text-base ${beat(BEATS.body)}`}
+              style={delay(BEATS.body)}
             >
-              <div className="aspect-video bg-zinc-900 rounded-xl overflow-hidden relative mb-4">
-                <img 
-                  src={item.image} 
-                  alt={item.title} 
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              Cinematic sports coverage and event aftermovies. Gameday, rush
+              films and club nights — cut fast, cut hard, delivered while it
+              still matters.
+            </p>
+
+            {/* CTAs — full width and thumb-height on a phone */}
+            <div className="mt-8 flex flex-col gap-2.5 sm:flex-row">
+              <Link
+                to="/video"
+                className={`group flex items-center justify-between gap-3 rounded-hud bg-cue px-5 py-4 text-bg transition-colors hover:bg-ink sm:justify-start ${beat(BEATS.ctaOne)}`}
+                style={delay(BEATS.ctaOne)}
+              >
+                <span className="t-label">WATCH THE 2025 REEL</span>
+                <Play size={15} className="fill-bg" />
+              </Link>
+              <Link
+                to="/events"
+                className={`group flex items-center justify-between gap-3 rounded-hud border border-line/70 px-5 py-4 transition-colors hover:border-cue hover:text-cue sm:justify-start ${beat(BEATS.ctaTwo)}`}
+                style={delay(BEATS.ctaTwo)}
+              >
+                <span className="t-label">BOOK AN EVENT</span>
+                <ArrowRight
+                  size={15}
+                  className="transition-transform duration-300 group-hover:translate-x-1"
                 />
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-500" />
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 backdrop-blur-sm">
-                  <div className="bg-white text-black rounded-full p-4 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                    <Play size={24} className="fill-black" />
-                  </div>
+              </Link>
+            </div>
+
+            {/* Slate strip — fields fill in one at a time, like a slate
+                being marked up before the take. */}
+            <dl className="mt-9 grid max-w-2xl grid-cols-2 gap-px overflow-hidden rounded-hud border border-line/50 bg-line/40 sm:grid-cols-4">
+              {[
+                ['ROLL', 'A026'],
+                ['BASE', CONTACT.base],
+                ['LOCAL', liveTime || '--:--'],
+                ['STATUS', 'AVAILABLE'],
+              ].map(([k, v], i) => (
+                <div
+                  key={k}
+                  className={`bg-bg/85 px-3 py-2.5 ${beat(BEATS.slate + i * 70)}`}
+                  style={delay(BEATS.slate + i * 70)}
+                >
+                  <dt className="t-label text-muted/70">{k}</dt>
+                  <dd
+                    className={`t-mono mt-1.5 text-[11px] ${
+                      i === 3 ? 'text-cue' : 'text-ink'
+                    }`}
+                  >
+                    {v}
+                  </dd>
                 </div>
-              </div>
-              <h3 className="text-xl font-medium mb-2">{item.title}</h3>
-              <p className="text-zinc-400 text-sm leading-relaxed">{item.description}</p>
-            </a>
-          ))}
+              ))}
+            </dl>
+          </div>
+        </div>
+
+        <div
+          className={`relative z-10 flex justify-center pb-4 ${beat(BEATS.release)}`}
+          style={delay(BEATS.release)}
+        >
+          <ChevronDown size={16} className="animate-bounce text-muted" />
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section ref={contactRef} className="py-32 px-6 md:px-12 max-w-7xl mx-auto border-t border-zinc-800">
-        <div className="contact-content flex flex-col items-center text-center">
-          <h2 className="text-[8vw] md:text-[6vw] font-bold tracking-tighter leading-none mb-8">
-            LET'S CREATE.
-          </h2>
-          
-          <div className="flex flex-col sm:flex-row gap-6 mt-8">
-            <a 
-              href="mailto:david@camick.org"
-              className="flex items-center gap-3 px-8 py-4 bg-white text-black rounded-full font-medium hover:scale-105 transition-transform duration-300"
-            >
-              <Mail size={20} />
-              <span>david@camick.org</span>
-            </a>
-            <a 
-              href="https://instagram.com/davidcamick"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 px-8 py-4 bg-zinc-900 text-white rounded-full font-medium hover:bg-zinc-800 transition-colors duration-300"
-            >
-              <Instagram size={20} />
-              <span>@davidcamick</span>
-            </a>
+      <Ticker items={TICKER} />
+
+      {/* ══ 002 NUMBERS ════════════════════════════════════ */}
+      <section id="stats" className="px-gutter py-20 sm:py-28">
+        <div className="mx-auto max-w-6xl">
+          <LowerThird
+            index={2}
+            track="TELEMETRY"
+            title="The "
+            accent="Numbers"
+            sub="What the work actually does once it's out in the world."
+          />
+          <div className="mt-12 grid grid-cols-1 gap-10 sm:grid-cols-3 sm:gap-6">
+            {STATS.map((stat, i) => (
+              <StatBug key={stat.label} stat={stat} index={i} />
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-8 text-center text-zinc-600 text-sm">
-        <p>© {new Date().getFullYear()} David Camick. All rights reserved.</p>
-      </footer>
+      {/* ══ 003 PROFILE ════════════════════════════════════ */}
+      <section id="profile" className="border-t border-line/40 px-gutter py-20 sm:py-28">
+        <div className="mx-auto max-w-6xl">
+          <LowerThird
+            index={3}
+            track="INTERVIEW"
+            title="High impact "
+            accent="visuals."
+          />
 
-    </main>
+          <div className="mt-12 grid gap-10 md:grid-cols-[1.1fr_0.9fr] md:gap-14">
+            <div className="space-y-5 text-sm leading-relaxed text-muted sm:text-base">
+              <p>
+                I make dynamic, cinematic content for brands, athletes and the
+                people throwing the best nights of the year. Sony Alpha bodies
+                and premium glass — every frame engineered for impact.
+              </p>
+              <p>
+                I shoot{' '}
+                <span className="text-ink">Alabama Football</span> — gameday
+                videos, recaps and player highlights that carry the intensity of
+                the sport. The other half of my calendar is events:{' '}
+                <span className="text-ink">rush films</span>,{' '}
+                <span className="text-ink">aftermovies</span> and{' '}
+                <span className="text-ink">club recaps</span> that make a night
+                worth reliving.
+              </p>
+              <p>
+                Turnaround is the whole game. Content that lands eight hours
+                after the whistle beats content that lands next week, every
+                time.
+              </p>
+
+              <div className="grid grid-cols-2 gap-px overflow-hidden rounded-hud border border-line/50 bg-line/40 pt-0 sm:max-w-md">
+                {[
+                  ['BODIES', 'Sony Alpha'],
+                  ['DELIVERY', '8 hr average'],
+                  ['COVERAGE', 'Sports + events'],
+                  ['TRAVEL', 'Available'],
+                ].map(([k, v]) => (
+                  <div key={k} className="bg-bg px-3 py-3">
+                    <p className="t-label text-muted/70">{k}</p>
+                    <p className="t-mono mt-1.5 text-[11px] text-ink">{v}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <figure className="hud-brackets relative">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-hud border border-line/50">
+                <img
+                  src="/assets/other assets/hero-me.jpg"
+                  alt="David Camick on location"
+                  loading="lazy"
+                  decoding="async"
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-bg/80 via-transparent to-transparent" />
+                <figcaption className="absolute inset-x-0 bottom-0 flex items-center justify-between p-4">
+                  <span className="t-label text-cue">CAM OP / EDITOR</span>
+                  <span className="t-mono text-[10px] text-ink/70">f/1.8</span>
+                </figcaption>
+              </div>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      {/* ══ 004 SELECTED WORK ══════════════════════════════ */}
+      <section id="work" className="border-t border-line/40 px-gutter py-20 sm:py-28">
+        <div className="mx-auto max-w-6xl">
+          <LowerThird
+            index={4}
+            track="TIMELINE / 2 TRACKS"
+            title="Selected "
+            accent="work"
+            sub="Two tracks, one calendar. Swipe a track to move through the cuts."
+          />
+
+          <div className="mt-12">
+            {TRACKS.map((track) => (
+              <Track
+                key={track.id}
+                track={track}
+                clips={CLIPS.filter((c) => c.track === track.id)}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══ 005 CLIENTS ════════════════════════════════════ */}
+      <section id="roster" className="border-t border-line/40 px-gutter py-20 sm:py-28">
+        <div className="mx-auto max-w-6xl">
+          <LowerThird
+            index={5}
+            track="ROSTER"
+            title="Selected "
+            accent="clients"
+          />
+
+          <div className="mt-12 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-5">
+            {CLIENTS.map((client, i) => (
+              <ClientCard key={client.id} client={client} index={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══ 006 THE KIT ════════════════════════════════════ */}
+      <section id="kit" className="border-t border-line/40 px-gutter py-20 sm:py-28">
+        <div className="mx-auto max-w-6xl">
+          <LowerThird
+            index={6}
+            track="POST WORKFLOW"
+            title="The "
+            accent="kit"
+            sub="Where the footage actually becomes something."
+          />
+
+          <div className="mt-12 grid gap-3 sm:grid-cols-3 sm:gap-4">
+            {KIT.map((tool, i) => (
+              <div
+                key={tool.name}
+                className="hud-panel flex items-center gap-4 rounded-hud p-4 transition-colors duration-500 hover:border-cue/50"
+              >
+                <img
+                  src={tool.image}
+                  alt=""
+                  aria-hidden
+                  loading="lazy"
+                  className="h-11 w-11 shrink-0 object-contain"
+                />
+                <div className="min-w-0">
+                  <p className="t-wide text-sm text-ink">{tool.name}</p>
+                  <p className="mt-1 text-xs text-muted">{tool.role}</p>
+                </div>
+                <span className="t-mono ml-auto text-[10px] text-cue/60">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══ 007 WRAP ═══════════════════════════════════════ */}
+      <section
+        id="wrap"
+        className="relative overflow-hidden border-t border-line/40 px-gutter py-24 sm:py-32"
+      >
+        <AmbientVideo
+          mobileSrc="/assets/events2-lite.mp4"
+          desktopSrc="/assets/events2-lite.mp4"
+          poster="/assets/events2-poster.jpg"
+          opacity={0.16}
+        />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-bg via-bg/70 to-bg" />
+
+        <div className="relative z-10 mx-auto max-w-3xl text-center">
+          <span className="t-label text-cue">007 / WRAP</span>
+          <h2 className="t-display mt-5 text-[17vw] leading-[0.85] md:text-[8vw]">
+            That&apos;s a<span className="text-cue"> wrap.</span>
+          </h2>
+          <p className="mx-auto mt-6 max-w-md text-sm leading-relaxed text-muted sm:text-base">
+            Got a game, a party or a night worth keeping? Let&apos;s get it on
+            the calendar.
+          </p>
+
+          <div className="mx-auto mt-9 flex max-w-md flex-col gap-2.5 sm:flex-row sm:justify-center">
+            <Link
+              to="/events"
+              className="flex items-center justify-center gap-2.5 rounded-hud bg-cue px-6 py-4 text-bg transition-colors hover:bg-ink"
+            >
+              <span className="t-label">EVENT COVERAGE</span>
+              <ArrowRight size={15} />
+            </Link>
+            <a
+              href={`mailto:${CONTACT.email}`}
+              className="flex items-center justify-center gap-2.5 rounded-hud border border-line/70 px-6 py-4 transition-colors hover:border-cue hover:text-cue"
+            >
+              <Mail size={15} />
+              <span className="t-label">EMAIL ME</span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </PageShell>
+  );
+}
+
+/* ── Client tile ───────────────────────────────────────────── */
+function ClientCard({ client, index }) {
+  const [ref, inView] = useInView({ threshold: 0.2 });
+
+  return (
+    <div
+      ref={ref}
+      className="group relative aspect-[4/5] overflow-hidden rounded-hud border border-line/50 transition-colors duration-500 hover:border-cue/50"
+      style={{
+        transform: inView ? 'translateY(0)' : 'translateY(20px)',
+        opacity: inView ? 1 : 0,
+        transition: `transform 600ms cubic-bezier(0.16,1,0.3,1) ${index * 80}ms, opacity 600ms ease ${index * 80}ms, border-color 400ms ease`,
+      }}
+    >
+      <img
+        src={client.image}
+        alt={client.name}
+        loading="lazy"
+        decoding="async"
+        className="absolute inset-0 h-full w-full object-cover grayscale transition-all duration-700 ease-hud group-hover:scale-105 group-hover:grayscale-0"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/35 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 p-3">
+        <p className="t-wide text-[11px] leading-tight text-ink">{client.name}</p>
+        <p className="mt-1 text-[10px] leading-tight text-muted">{client.role}</p>
+      </div>
+      <span className="t-mono absolute right-2 top-2 text-[9px] text-cue/70">
+        {String(index + 1).padStart(2, '0')}
+      </span>
+    </div>
   );
 }

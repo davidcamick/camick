@@ -1,37 +1,362 @@
-@font-face {
-  font-family: 'Futura';
-  src: url('/assets/Futura-Bold.woff2') format('woff2'),
-       url('/assets/Futura-Bold.woff') format('woff'),
-       url('/assets/Futura-Bold.ttf') format('truetype');
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ══════════════════════════════════════════════════════════════
+   BROADCAST HUD — design tokens
+   Channels stored space-separated so Tailwind alpha modifiers work.
+   ══════════════════════════════════════════════════════════════ */
 :root {
-  --color-1: 0 100% 63%;
-  --color-2: 270 100% 63%;
-  --color-3: 210 100% 63%;
-  --color-4: 195 100% 63%;
-  --color-5: 90 100% 63%;
-  --font-futura: 'Futura', sans-serif;
+  --rgb-bg:      11 14 19;    /* #0B0E13  deck black          */
+  --rgb-panel:   19 25 35;    /* #131923  panel                */
+  --rgb-panel-2: 28 34 48;    /* #1C2230  raised panel         */
+  --rgb-line:    58 68 86;    /* #3A4456  hairline / rule      */
+  --rgb-text:   232 237 245;  /* #E8EDF5  primary type         */
+  --rgb-muted:  138 148 166;  /* #8A94A6  secondary type       */
+  --rgb-cue:      0 229 255;  /* #00E5FF  cue / playhead       */
+  --rgb-rec:    255  45  59;  /* #FF2D3B  REC bug / live       */
+  --rgb-amber:  255 184   0;  /* #FFB800  add-ons / warnings   */
+
+  --hud-gutter: 1.25rem;
+  --timeline-h: 4.5rem;
+
+  /* Safe-area aware bottom inset for the timeline scrubber */
+  --sa-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@media (min-width: 768px) {
+  :root {
+    --hud-gutter: 3rem;
+    --timeline-h: 5rem;
+  }
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Never let a full-bleed layer create a sideways scroll on a phone */
+  overflow-x: hidden;
 }
 
 body {
-  background-color: black;
+  background-color: rgb(var(--rgb-bg));
+  color: rgb(var(--rgb-text));
+  font-family: 'Archivo', system-ui, sans-serif;
+  font-variation-settings: 'wdth' 100;
+  overscroll-behavior-y: none;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Hide scrollbar for Chrome, Safari and Opera */
+::selection {
+  background: rgb(var(--rgb-cue) / 0.28);
+  color: rgb(var(--rgb-text));
+}
+
+/* Thin HUD scrollbar — visible, but in the language of the design.
+   (The old build hid scrollbars entirely, which removed a real
+   affordance on desktop for no design gain.) */
 ::-webkit-scrollbar {
-  display: none;
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgb(var(--rgb-bg));
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--rgb-line));
+  border-radius: 0;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--rgb-cue) / 0.6);
+}
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--rgb-line)) rgb(var(--rgb-bg));
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
-html {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+/* ══════════════════════════════════════════════════════════════
+   TYPE
+   Archivo is a variable font with a width axis (62–125). Condensed
+   heavy = broadcast lower-third. Expanded = station ident.
+   ══════════════════════════════════════════════════════════════ */
+@layer components {
+  .t-display {
+    font-family: 'Archivo', system-ui, sans-serif;
+    font-variation-settings: 'wdth' 68, 'wght' 800;
+    letter-spacing: -0.02em;
+    line-height: 0.86;
+    text-transform: uppercase;
+  }
+
+  .t-wide {
+    font-family: 'Archivo', system-ui, sans-serif;
+    font-variation-settings: 'wdth' 118, 'wght' 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .t-mono {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-variation-settings: normal;
+    letter-spacing: 0.06em;
+  }
+
+  .t-label {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.625rem;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* ── Panels & chrome ─────────────────────────────────────── */
+  .hud-panel {
+    background: rgb(var(--rgb-panel) / 0.72);
+    border: 1px solid rgb(var(--rgb-line) / 0.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  /* Crop marks — the four corner brackets on a framing chart */
+  .hud-brackets {
+    position: relative;
+  }
+  .hud-brackets::before,
+  .hud-brackets::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border: 1px solid rgb(var(--rgb-cue) / 0.55);
+    pointer-events: none;
+  }
+  .hud-brackets::before {
+    top: -1px;
+    left: -1px;
+    border-right: 0;
+    border-bottom: 0;
+  }
+  .hud-brackets::after {
+    bottom: -1px;
+    right: -1px;
+    border-left: 0;
+    border-top: 0;
+  }
+
+  /* Sprocket holes — film edge on clip cards */
+  .film-perf {
+    background-image: radial-gradient(
+      circle at 50% 50%,
+      rgb(var(--rgb-bg)) 0 38%,
+      transparent 39%
+    );
+    background-size: 14px 100%;
+    background-repeat: repeat-x;
+  }
+}
+
+@layer utilities {
+  /* Dynamic viewport height — avoids the iOS URL-bar jump that
+     100vh causes when Safari's chrome collapses on scroll. */
+  .h-dscreen {
+    height: 100vh;
+    height: 100dvh;
+  }
+  .min-h-dscreen {
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  .px-gutter {
+    padding-left: var(--hud-gutter);
+    padding-right: var(--hud-gutter);
+  }
+
+  /* Keeps content clear of the fixed bottom timeline + home indicator */
+  .pb-timeline {
+    padding-bottom: calc(var(--timeline-h) + var(--sa-bottom) + 1.5rem);
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SIGNAL TEXTURE — scanlines + grain, sitting above content but
+   fully click-through.
+   ══════════════════════════════════════════════════════════════ */
+.fx-scanlines::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 2px,
+    rgb(0 0 0 / 0.14) 2px 3px
+  );
+  mix-blend-mode: multiply;
+  opacity: 0.45;
+}
+
+.fx-grain::before {
+  content: '';
+  position: fixed;
+  inset: -50%;
+  z-index: 59;
+  pointer-events: none;
+  opacity: 0.16;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  animation: grain-drift 900ms steps(3) infinite;
+}
+
+@keyframes grain-drift {
+  0%   { transform: translate(0, 0); }
+  33%  { transform: translate(-3%, 2%); }
+  66%  { transform: translate(2%, -3%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Vignette so full-bleed footage never fights the type */
+.fx-vignette::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 40%,
+    rgb(var(--rgb-bg) / 0.55) 100%
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════
+   MOTION
+   ══════════════════════════════════════════════════════════════ */
+@keyframes rec-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.25; }
+}
+
+@keyframes bar-wipe {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+@keyframes signal-flicker {
+  0%, 100%   { opacity: 1; }
+  92%        { opacity: 1; }
+  93%        { opacity: 0.4; }
+  94%        { opacity: 1; }
+  97%        { opacity: 0.7; }
+  98%        { opacity: 1; }
+}
+
+@keyframes ticker-run {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Hero entrance. `both` fill mode means the reduced-motion override below
+   (which collapses duration to ~0) still lands on the final frame. */
+@keyframes hud-rise {
+  from { transform: translateY(110%); }
+  to   { transform: translateY(0); }
+}
+
+@keyframes hud-fade {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   TITLE SEQUENCE
+   The opening beats, in order: the shutter opens to a scope frame,
+   the plate settles up from black, the name lands, the frame opens
+   out to full height.
+   All transform/opacity so the whole thing stays on the compositor.
+   ══════════════════════════════════════════════════════════════ */
+
+/* Letterbox: closed → scope bars → open. Anchored at each edge so
+   scaleY reads as the bar retracting rather than shrinking in place. */
+@keyframes letterbox {
+  0%   { transform: scaleY(1); }
+  40%  { transform: scaleY(0.11); }
+  68%  { transform: scaleY(0.11); }
+  100% { transform: scaleY(0); }
+}
+
+/* Plate settling: a slow push-in coming up out of black */
+@keyframes intro-settle {
+  from { transform: scale(1.18); filter: brightness(0.12); }
+  to   { transform: scale(1);    filter: brightness(1); }
+}
+
+/* Single-frame bloom as the name lands. Kept low — this sits over the whole
+   hero, so anything near half opacity reads as a white-out, not a flash. */
+@keyframes title-flash {
+  0%   { opacity: 0; }
+  9%   { opacity: 0.26; }
+  100% { opacity: 0; }
+}
+
+/* Cue rule drawn under the name */
+@keyframes cue-sweep {
+  0%   { transform: scaleX(0); opacity: 1; }
+  62%  { transform: scaleX(1); opacity: 1; }
+  100% { transform: scaleX(1); opacity: 0.4; }
+}
+
+/* Viewfinder marks snapping to the frame, then releasing */
+@keyframes mark-snap {
+  0%   { opacity: 0; transform: scale(1.6); }
+  30%  { opacity: 1; transform: scale(1); }
+  72%  { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1); }
+}
+
+/* Split-flap. Both halves pivot on the card's centre line, which is what
+   makes it read as one physical flap rather than two sliding panels. */
+@keyframes flap-out {
+  from { transform: rotateX(0deg); }
+  to   { transform: rotateX(-90deg); }
+}
+
+@keyframes flap-in {
+  from { transform: rotateX(90deg); }
+  to   { transform: rotateX(0deg); }
+}
+
+.anim-rec { animation: rec-pulse 1.4s ease-in-out infinite; }
+.anim-flicker { animation: signal-flicker 6s linear infinite; }
+.anim-rise { animation: hud-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.anim-fade { animation: hud-fade 0.75s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+/* ══════════════════════════════════════════════════════════════
+   REDUCED MOTION — strip the decorative layers entirely rather
+   than just slowing them down.
+   ══════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .fx-grain::before {
+    display: none;
+  }
+  .fx-scanlines::after {
+    opacity: 0.25;
+  }
 }
