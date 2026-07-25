@@ -47,29 +47,34 @@ export default function AmbientVideo({
   }, [src]);
 
   return (
-    <div className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}>
+    /* The blend level lives on the wrapper, not on each layer. Putting it on
+       the layers made the video semi-transparent, so the still poster showed
+       straight through the moving footage as a permanent double exposure.
+       Here the video plays fully opaque and simply covers the poster. */
+    <div
+      className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}
+      style={{ opacity }}
+    >
       {poster && (
         <img
           src={poster}
           alt=""
           aria-hidden
           className="absolute inset-0 h-full w-full scale-105 object-cover"
-          style={{ opacity }}
         />
       )}
       {src && (
         <video
           ref={videoRef}
           src={src}
-          poster={poster}
           muted
           loop
           playsInline
           preload="none"
           aria-hidden
           onCanPlay={() => setReady(true)}
-          className="absolute inset-0 h-full w-full scale-105 object-cover transition-opacity duration-1000"
-          style={{ opacity: ready ? opacity : 0 }}
+          className="absolute inset-0 h-full w-full scale-105 object-cover transition-opacity duration-700"
+          style={{ opacity: ready ? 1 : 0 }}
         />
       )}
     </div>
