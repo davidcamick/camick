@@ -22,9 +22,9 @@ import {
 
 const CLIPS_NAV = [
   { id: 'slate', label: 'SLATE' },
+  { id: 'work', label: 'SELECTED WORK' },
   { id: 'stats', label: 'NUMBERS' },
   { id: 'profile', label: 'PROFILE' },
-  { id: 'work', label: 'SELECTED WORK' },
   { id: 'roster', label: 'CLIENTS' },
   { id: 'kit', label: 'THE KIT' },
   { id: 'wrap', label: 'BOOK IT' },
@@ -222,11 +222,34 @@ export default function Home() {
 
       <Ticker items={TICKER} />
 
-      {/* ══ 002 NUMBERS ════════════════════════════════════ */}
-      <section id="stats" className="px-gutter py-20 sm:py-28">
+      {/* ══ 002 SELECTED WORK ══════════════════════════════ */}
+      <section id="work" className="px-gutter py-20 sm:py-28">
         <div className="mx-auto max-w-6xl">
           <LowerThird
             index={2}
+            track="TIMELINE / 2 TRACKS"
+            title="Selected "
+            accent="work"
+            sub="Two tracks, one calendar. Swipe a track to move through the cuts."
+          />
+
+          <div className="mt-12">
+            {TRACKS.map((track) => (
+              <Track
+                key={track.id}
+                track={track}
+                clips={CLIPS.filter((c) => c.track === track.id)}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══ 003 NUMBERS ════════════════════════════════════ */}
+      <section id="stats" className="border-t border-line/40 px-gutter py-20 sm:py-28">
+        <div className="mx-auto max-w-6xl">
+          <LowerThird
+            index={3}
             track="TELEMETRY"
             title="The "
             accent="Numbers"
@@ -240,11 +263,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ══ 003 PROFILE ════════════════════════════════════ */}
+      {/* ══ 004 PROFILE ════════════════════════════════════ */}
       <section id="profile" className="border-t border-line/40 px-gutter py-20 sm:py-28">
         <div className="mx-auto max-w-6xl">
           <LowerThird
-            index={3}
+            index={4}
             track="INTERVIEW"
             title="High impact "
             accent="visuals."
@@ -304,29 +327,6 @@ export default function Home() {
                 </figcaption>
               </div>
             </figure>
-          </div>
-        </div>
-      </section>
-
-      {/* ══ 004 SELECTED WORK ══════════════════════════════ */}
-      <section id="work" className="border-t border-line/40 px-gutter py-20 sm:py-28">
-        <div className="mx-auto max-w-6xl">
-          <LowerThird
-            index={4}
-            track="TIMELINE / 2 TRACKS"
-            title="Selected "
-            accent="work"
-            sub="Two tracks, one calendar. Swipe a track to move through the cuts."
-          />
-
-          <div className="mt-12">
-            {TRACKS.map((track) => (
-              <Track
-                key={track.id}
-                track={track}
-                clips={CLIPS.filter((c) => c.track === track.id)}
-              />
-            ))}
           </div>
         </div>
       </section>
