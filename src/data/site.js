@@ -148,21 +148,42 @@ export const STATS = [
   { value: 8, suffix: "HR", label: "Avg turnaround", note: "Event to delivery" },
 ];
 
-export const KIT = [
+/* ── Software knowledge ───────────────────────────────────────
+   Framed as what I can actually do in each program, not as a
+   list of tools I happen to own.                              */
+export const SKILLS = [
   {
     name: "Premiere Pro",
     image: "/assets/logos/premiere.png",
-    role: "Timeline assembly + conform",
+    summary: "Where every edit gets cut, graded and finished.",
+    knows: [
+      "Multicam assembly + conform",
+      "Colour grading",
+      "Sound design + mix",
+      "Delivery to any format or spec",
+    ],
   },
   {
     name: "After Effects",
     image: "/assets/logos/aftereffects.png",
-    role: "Motion graphics + compositing",
+    summary: "Motion work, and anything a shot needs built into it.",
+    knows: [
+      "Motion graphics + title design",
+      "Compositing + cleanup",
+      "Camera and object tracking",
+      "Stylised effects and transitions",
+    ],
   },
   {
     name: "Blender",
     image: "/assets/logos/blender.png",
-    role: "3D integration + environments",
+    summary: "3D for when the shot needs more than what was filmed.",
+    knows: [
+      "3D modelling",
+      "Environment design",
+      "Match-moving into live footage",
+      "Rendering back into the edit",
+    ],
   },
 ];
 

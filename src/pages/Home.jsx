@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ChevronDown, Mail, Play } from 'lucide-react';
+import { ArrowRight, Check, ChevronDown, Mail, Play } from 'lucide-react';
 
 import PageShell from '../components/hud/PageShell';
 import AmbientVideo from '../components/hud/AmbientVideo';
@@ -14,7 +14,7 @@ import {
   CLIENTS,
   CLIPS,
   CONTACT,
-  KIT,
+  SKILLS,
   STATS,
   TICKER,
   TRACKS,
@@ -26,7 +26,7 @@ const CLIPS_NAV = [
   { id: 'profile', label: 'PROFILE' },
   { id: 'work', label: 'SELECTED WORK' },
   { id: 'roster', label: 'CLIENTS' },
-  { id: 'kit', label: 'THE KIT' },
+  { id: 'skills', label: 'WHAT I KNOW' },
   { id: 'wrap', label: 'BOOK IT' },
 ];
 
@@ -349,37 +349,54 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ══ 006 THE KIT ════════════════════════════════════ */}
-      <section id="kit" className="border-t border-line/40 px-gutter py-20 sm:py-28">
+      {/* ══ 006 WHAT I KNOW ════════════════════════════════ */}
+      <section id="skills" className="border-t border-line/40 px-gutter py-20 sm:py-28">
         <div className="mx-auto max-w-6xl">
           <LowerThird
             index={6}
-            track="POST WORKFLOW"
-            title="The "
-            accent="kit"
-            sub="Where the footage actually becomes something."
+            track="SOFTWARE"
+            title="What I "
+            accent="know"
+            sub="Three programs, learned properly. Here's what I can actually do in each one."
           />
 
           <div className="mt-12 grid gap-3 sm:grid-cols-3 sm:gap-4">
-            {KIT.map((tool, i) => (
+            {SKILLS.map((tool, i) => (
               <div
                 key={tool.name}
-                className="hud-panel flex items-center gap-4 rounded-hud p-4 transition-colors duration-500 hover:border-cue/50"
+                className="hud-panel flex flex-col rounded-hud p-5 transition-colors duration-500 hover:border-cue/50"
               >
-                <img
-                  src={tool.image}
-                  alt=""
-                  aria-hidden
-                  loading="lazy"
-                  className="h-11 w-11 shrink-0 object-contain"
-                />
-                <div className="min-w-0">
-                  <p className="t-wide text-sm text-ink">{tool.name}</p>
-                  <p className="mt-1 text-xs text-muted">{tool.role}</p>
+                <div className="flex items-center gap-3.5">
+                  <img
+                    src={tool.image}
+                    alt=""
+                    aria-hidden
+                    loading="lazy"
+                    className="h-10 w-10 shrink-0 object-contain"
+                  />
+                  <p className="t-wide flex-1 text-sm text-ink">{tool.name}</p>
+                  <span className="t-mono text-[10px] text-cue/60">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
                 </div>
-                <span className="t-mono ml-auto text-[10px] text-cue/60">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
+
+                <p className="mt-3 text-xs leading-relaxed text-muted">
+                  {tool.summary}
+                </p>
+
+                <div aria-hidden className="my-4 h-px w-full bg-line/50" />
+
+                <ul className="space-y-2">
+                  {tool.knows.map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-start gap-2.5 text-[13px] leading-snug text-muted"
+                    >
+                      <Check size={13} className="mt-[3px] shrink-0 text-cue" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
