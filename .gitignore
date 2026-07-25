@@ -3,3 +3,6 @@ dist
 
 # macOS
 .DS_Store
+
+# Video masters — kept locally, never deployed or committed
+masters/
