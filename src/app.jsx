@@ -1,42 +1,53 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+} from 'react-router-dom';
+
 import Home from './pages/Home';
+import Events from './pages/Events';
 import CoverVideo from './pages/CoverVideo';
 import Resume from './pages/Resume';
-import Events from './pages/Events';
-import LinksMB from './pages/mobile/linksMB';
-import Contact from './pages/cross-platform/contact';
+import Links from './pages/Links';
+import Contact from './pages/Contact';
 
-// Helper component to handle scroll to top when navigating
-const ScrollToTop = () => {
-  const location = useLocation();
-  
+/** Resets scroll between routes, and honours an incoming #hash deep link. */
+function ScrollToTop() {
+  const { pathname, hash } = useLocation();
+
   useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  }, [location]);
-  
-  return null;
-};
+    if (hash) {
+      const el = document.getElementById(hash.slice(1));
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+    }
+    /* Instant, not smooth — smooth-scrolling a brand new page reads as a
+       glitch rather than a transition. */
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }, [pathname, hash]);
 
-function App() {
+  return null;
+}
+
+export default function App() {
   return (
     <Router>
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/events" element={<Events />} />
         <Route path="/video" element={<CoverVideo />} />
         <Route path="/resume" element={<Resume />} />
-        <Route path="/events" element={<Events />} />
-        <Route path="/sfx" element={<Navigate to="/" replace />} />
-        <Route path="/links" element={<LinksMB />} />
+        <Route path="/links" element={<Links />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="*" element={<Home />} />
+        <Route path="/sfx" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   );
 }
-
-export default App;
